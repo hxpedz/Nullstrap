@@ -70,7 +70,7 @@ internal sealed partial class Installer
 		if (!Nullstrap.Utility.Platform.IsWindows)
 		{
 			Nullstrap.Platform.IPlatformHost? host = Nullstrap.Utility.Platform.RuntimeHost;
-			string? applicationPath = Environment.ProcessPath;
+			string? applicationPath = Paths.Process;
 			if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 			{
 				throw new InvalidOperationException("Platform storage is unavailable");
@@ -770,7 +770,7 @@ internal sealed partial class Installer
 			string helperDirectory = Path.Combine(CleanupHelperRoot, Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(helperDirectory);
 			string helperPath = Path.Combine(helperDirectory, Path.GetFileName(Paths.Application));
-			File.Copy(Paths.Process, helperPath, false);
+			File.Copy(Environment.ProcessPath ?? Paths.Process, helperPath, false);
 			InstallRecord.MakeExecutable(helperPath);
 			var start = new ProcessStartInfo
 			{
@@ -885,8 +885,12 @@ internal sealed partial class Installer
 				break;
 			}
 		}
+		if (Nullstrap.Utility.Platform.IsWindows)
+			ForceDeleteDirectory(LauncherBinDirectory);
 		TryRemoveCleanupHelper();
 	}
+
+	private static string LauncherBinDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Nullstrap", "Bin");
 
 	private static bool IsOwnedInstallRoot(string root)
 	{
@@ -950,7 +954,7 @@ internal sealed partial class Installer
 
 	internal static void CleanupUpdateBackups()
 	{
-		string? exe = Environment.ProcessPath;
+		string? exe = Paths.Process;
 		string? folder = Path.GetDirectoryName(exe);
 		if (string.IsNullOrEmpty(exe) || string.IsNullOrEmpty(folder))
 			return;
@@ -1368,7 +1372,7 @@ internal sealed partial class Installer
 		{
 			if (File.Exists(StartMenuShortcut))
 			{
-				Nullstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
+				Nullstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut, Paths.Application, overwrite: true);
 			}
 		}
 		catch

@@ -219,7 +219,7 @@ public partial class App : Application
 
 			string? executable = Nullstrap.Utility.Platform.IsLinux
 				? Nullstrap.Platform.Linux.LinuxAppImageHost.ResolveApplicationPath(Environment.ProcessPath ?? string.Empty)
-				: Environment.ProcessPath;
+				: Paths.Process;
 			if (string.IsNullOrWhiteSpace(executable))
 			{
 				return false;
@@ -754,8 +754,13 @@ public partial class App : Application
 
 	private const int NativeRuntimeMissingExitCode = 78;
 
-	private static void StartJitProfile()
+	[System.Runtime.InteropServices.LibraryImport("shell32.dll", StringMarshalling = System.Runtime.InteropServices.StringMarshalling.Utf16)]
+	private static partial int SetCurrentProcessExplicitAppUserModelID(string appId);
+
+	private static void StartJitProfile(string[] args)
 	{
+		if (args.Any(arg => string.Equals(arg, "-uninstall", StringComparison.OrdinalIgnoreCase) || string.Equals(arg, "-deferredcleanup", StringComparison.OrdinalIgnoreCase)))
+			return;
 		try
 		{
 			string root = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Nullstrap", "JitProfile");
@@ -771,7 +776,9 @@ public partial class App : Application
 	protected override async void OnStartup(StartupEventArgs e)
 	{
 		LinuxUiPerformance.Mark("Startup entered");
-		StartJitProfile();
+		StartJitProfile(e.Args);
+		if (Paths.StartedByLauncher)
+			SetCurrentProcessExplicitAppUserModelID(Nullstrap.Utility.Shortcut.AppUserModelId);
 		RegisterExceptionHandlers();
 		if (!Nullstrap.Utility.LinuxRuntimePreflight.Verify())
 		{
@@ -881,7 +888,7 @@ public partial class App : Application
 				return;
 			}
 
-			string? applicationPath = Environment.ProcessPath;
+			string? applicationPath = Paths.Process;
 			if (string.IsNullOrWhiteSpace(applicationPath))
 			{
 				Frontend.ShowMessageBox("Nullstrap could not determine its application path.", MessageBoxImage.Hand);
@@ -1187,7 +1194,7 @@ public partial class App : Application
 		}
 		try
 		{
-			string? executable = Environment.ProcessPath;
+			string? executable = Paths.Process;
 			if (!string.IsNullOrEmpty(executable) && File.Exists(executable))
 			{
 				metadata.Timestamp = File.GetLastWriteTime(executable);
@@ -1259,7 +1266,7 @@ public partial class App : Application
 			if (!Nullstrap.Utility.Platform.IsWindows)
 			{
 				Nullstrap.Platform.IPlatformHost? host = Nullstrap.Utility.Platform.RuntimeHost;
-				string? applicationPath = Environment.ProcessPath;
+				string? applicationPath = Paths.Process;
 				if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 				{
 					throw new InvalidOperationException("Platform storage is unavailable");

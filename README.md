@@ -527,7 +527,7 @@ Nullstrap's own code is released under the [MIT License](LICENSE.NULLSTRAP). Thi
 
 | Project | License | Copyright | File |
 | --- | --- | --- | --- |
-| Nullstrap (fork of Voidstrap) | MIT | (c) 2026 hxpedz, Bratic | [LICENSE.NULLSTRAP](LICENSE.NULLSTRAP) |
+| Nullstrap (fork of Nullstrap) | MIT | (c) 2026 hxpedz, Bratic | [LICENSE.NULLSTRAP](LICENSE.NULLSTRAP) |
 | Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
 | Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
 
