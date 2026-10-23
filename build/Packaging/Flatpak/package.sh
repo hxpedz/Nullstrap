@@ -5,10 +5,10 @@ RID="${1:?A Linux runtime identifier is required}"
 VERSION="${2:-}"
 OUTPUT="${3:?An output directory is required}"
 PUBLISHED_EXECUTABLE="${4:-}"
-APPLICATION_ID="io.github.KloBraticc.Voidstrap"
+APPLICATION_ID="io.github.hxpedz.Nullstrap"
 
 if [ -z "$VERSION" ]; then
-  VERSION="$(sed -n 's:^[[:space:]]*<VoidstrapVersion>\(.*\)</VoidstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
+  VERSION="$(sed -n 's:^[[:space:]]*<NullstrapVersion>\(.*\)</NullstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
 fi
 
 case "$RID" in
@@ -23,16 +23,16 @@ if [[ ! "$VERSION" =~ ^[0-9]+([.][0-9]+){1,3}$ ]]; then
 fi
 
 command -v flatpak >/dev/null 2>&1 || { echo "Flatpak is unavailable"; exit 1; }
-flock "${TMPDIR:-/tmp}/voidstrap-flatpak-remote.lock" flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flock "${TMPDIR:-/tmp}/nullstrap-flatpak-remote.lock" flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 mkdir -p "$OUTPUT"
 OUTPUT="$(cd "$OUTPUT" && pwd)"
-FINAL_TARGET="$OUTPUT/Voidstrap_${VERSION}_${ARCH}.flatpak"
+FINAL_TARGET="$OUTPUT/Nullstrap_${VERSION}_${ARCH}.flatpak"
 if [ -e "$FINAL_TARGET" ]; then
   echo "The requested output already exists"
   exit 1
 fi
 
-LOCK="$OUTPUT/.voidstrap-flatpak-$ARCH.lock"
+LOCK="$OUTPUT/.nullstrap-flatpak-$ARCH.lock"
 if ! mkdir "$LOCK" 2>/dev/null; then
   echo "Another Flatpak package operation is already running"
   exit 1
@@ -47,12 +47,12 @@ cleanup() {
 }
 trap cleanup EXIT
 
-STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-flatpak.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/nullstrap-flatpak.XXXXXX")"
 ARCHIVE_DIRECTORY="$STAGE/archive"
 mkdir -p "$ARCHIVE_DIRECTORY"
 bash "$ROOT/build/Packaging/Linux/package.sh" "$RID" "$VERSION" tar "$ARCHIVE_DIRECTORY" "$PUBLISHED_EXECUTABLE"
-tar -xzf "$ARCHIVE_DIRECTORY/Voidstrap_${VERSION}_${RID}.tar.gz" -C "$STAGE"
-mv "$STAGE/Voidstrap" "$STAGE/payload"
+tar -xzf "$ARCHIVE_DIRECTORY/Nullstrap_${VERSION}_${RID}.tar.gz" -C "$STAGE"
+mv "$STAGE/Nullstrap" "$STAGE/payload"
 sed -i -E "s#<release version=\"[^\"]+\" date=\"[^\"]+\" />#<release version=\"$VERSION\" date=\"$(date -u +%Y-%m-%d)\" />#" "$STAGE/payload/share/metainfo/$APPLICATION_ID.metainfo.xml"
 
 MANIFEST="$STAGE/$APPLICATION_ID.yml"
@@ -96,20 +96,20 @@ FINISH_ARGS=(
   "--talk-name=org.kde.StatusNotifierWatcher"
 )
 
-printf 'id: %s\nruntime: org.gnome.Platform\nruntime-version: "50"\nsdk: org.gnome.Sdk\ncommand: voidstrap\nseparate-locales: false\nfinish-args:\n' "$APPLICATION_ID" > "$MANIFEST"
+printf 'id: %s\nruntime: org.gnome.Platform\nruntime-version: "50"\nsdk: org.gnome.Sdk\ncommand: nullstrap\nseparate-locales: false\nfinish-args:\n' "$APPLICATION_ID" > "$MANIFEST"
 printf '  - %s\n' "${FINISH_ARGS[@]}" >> "$MANIFEST"
-printf 'modules:\n  - name: voidstrap\n    buildsystem: simple\n    build-commands:\n      - install -Dm755 Voidstrap /app/bin/voidstrap\n      - cp -a share/. /app/share/\n    sources:\n      - type: dir\n        path: payload\n' >> "$MANIFEST"
+printf 'modules:\n  - name: nullstrap\n    buildsystem: simple\n    build-commands:\n      - install -Dm755 Nullstrap /app/bin/nullstrap\n      - cp -a share/. /app/share/\n    sources:\n      - type: dir\n        path: payload\n' >> "$MANIFEST"
 
 BUILD_DIRECTORY="$STAGE/build"
 REPOSITORY="$STAGE/repository"
 if [ "$ARCH" != "$(uname -m)" ]; then
   mkdir -p "$BUILD_DIRECTORY/files/bin" "$BUILD_DIRECTORY/files/share"
-  install -Dm755 "$STAGE/payload/Voidstrap" "$BUILD_DIRECTORY/files/bin/voidstrap"
+  install -Dm755 "$STAGE/payload/Nullstrap" "$BUILD_DIRECTORY/files/bin/nullstrap"
   cp -a "$STAGE/payload/share/." "$BUILD_DIRECTORY/files/share/"
   command -v appstreamcli >/dev/null 2>&1 || { echo "AppStream is unavailable"; exit 1; }
   appstreamcli compose --no-net --prefix=/ --origin="$APPLICATION_ID" --components="$APPLICATION_ID,$APPLICATION_ID.desktop" --result-root="$BUILD_DIRECTORY/files" --data-dir="$BUILD_DIRECTORY/files/share/app-info/xmls" --icons-dir="$BUILD_DIRECTORY/files/share/app-info/icons/flatpak" "$BUILD_DIRECTORY/files"
   printf '[Application]\nname=%s\nruntime=org.gnome.Platform/%s/50\nsdk=org.gnome.Sdk/%s/50\n' "$APPLICATION_ID" "$ARCH" "$ARCH" > "$BUILD_DIRECTORY/metadata"
-  flatpak build-finish --command=voidstrap "${FINISH_ARGS[@]}" "$BUILD_DIRECTORY"
+  flatpak build-finish --command=nullstrap "${FINISH_ARGS[@]}" "$BUILD_DIRECTORY"
   flatpak build-export --arch="$ARCH" --disable-sandbox "$REPOSITORY" "$BUILD_DIRECTORY" stable
 else
   if command -v flatpak-builder >/dev/null 2>&1; then
@@ -154,6 +154,6 @@ if screenshots is not None:
         raise SystemExit("The Flatpak screenshot catalog could not be updated")
 PYTHON
 flatpak build-export --arch="$ARCH" --disable-sandbox "$REPOSITORY" "$BUILD_DIRECTORY" stable
-TARGET="$STAGE/Voidstrap_${VERSION}_${ARCH}.flatpak"
+TARGET="$STAGE/Nullstrap_${VERSION}_${ARCH}.flatpak"
 flatpak build-bundle --arch="$ARCH" --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo "$REPOSITORY" "$TARGET" "$APPLICATION_ID" stable
 mv -n "$TARGET" "$FINAL_TARGET"

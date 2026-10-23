@@ -2,8 +2,8 @@ use crate::java::{self, opt_bool, opt_str};
 use crate::net::Client;
 use serde_json::{Value, json};
 
-pub const RELEASES: &str = "https://api.github.com/repos/KloBraticc/Voidstrap/releases?per_page=20";
-pub const PAGE: &str = "https://github.com/KloBraticc/Voidstrap/releases";
+pub const RELEASES: &str = "https://api.github.com/repos/hxpedz/Nullstrap/releases?per_page=20";
+pub const PAGE: &str = "https://github.com/hxpedz/Nullstrap/releases";
 const MAX_BODY: i32 = 2 * 1024 * 1024;
 const MAX_NOTES: usize = 1200;
 pub const MIN_APK_BYTES: i64 = 1024 * 1024;
@@ -185,7 +185,7 @@ pub fn call(op: &str, a: &Value) -> Result<Value, crate::archive::Error> {
     Ok(match op {
         "code" => json!({"v": version_code(&opt_str(a, "version", ""))}),
         "latest" => {
-            let client = Client { agent: opt_str(a, "agent", "Voidstrap Android") };
+            let client = Client { agent: opt_str(a, "agent", "Nullstrap Android") };
             let flavor = opt_str(a, "flavor", "direct");
             let installed = java::opt_long(a, "installed", 0);
             let pre = opt_bool(a, "prerelease", false);

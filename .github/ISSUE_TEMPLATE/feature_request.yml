@@ -1,5 +1,5 @@
 name: Feature request
-description: Suggest an idea for Voidstrap.
+description: Suggest an idea for Nullstrap.
 title: "[Feature] "
 labels:
   - enhancement
@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        <p align="center"><img width="96" alt="Voidstrap" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png"></p>
+        <p align="center"><img width="96" alt="Nullstrap" src="https://raw.githubusercontent.com/hxpedz/Nullstrap/main/src/Nullstrap.App/Nullstrap.png"></p>
 
         Explain the problem first, then describe the change that would solve it. Add examples when they help clarify the idea.
   - type: checkboxes
@@ -15,7 +15,7 @@ body:
     attributes:
       label: Before you start
       options:
-        - label: I searched the [existing issues](https://github.com/KloBraticc/Voidstrap/issues) and this feature is not requested yet.
+        - label: I searched the [existing issues](https://github.com/hxpedz/Nullstrap/issues) and this feature is not requested yet.
           required: true
         - label: This is not a cheat, exploit or anything else that breaks Roblox's rules.
           required: true
@@ -41,7 +41,7 @@ body:
   - type: textarea
     id: solution
     attributes:
-      label: What should Voidstrap do?
+      label: What should Nullstrap do?
       description: Describe the behavior you want and how you would use it.
       placeholder: Explain the change from a user's point of view.
     validations:
@@ -56,5 +56,5 @@ body:
     attributes:
       label: Code of Conduct
       options:
-        - label: I agree to follow the [Code of Conduct](https://github.com/KloBraticc/Voidstrap/blob/main/CODE_OF_CONDUCT.md).
+        - label: I agree to follow the [Code of Conduct](https://github.com/hxpedz/Nullstrap/blob/main/CODE_OF_CONDUCT.md).
           required: true

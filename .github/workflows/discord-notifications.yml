@@ -188,7 +188,7 @@ jobs:
               }).encode("utf-8"),
               headers={
                   "Content-Type": "application/json",
-                  "User-Agent": "DiscordBot (https://github.com/KloBraticc/Voidstrap, 1.0)",
+                  "User-Agent": "DiscordBot (https://github.com/hxpedz/Nullstrap, 1.0)",
               },
               method="POST",
           )

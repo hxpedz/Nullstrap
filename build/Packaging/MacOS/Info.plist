@@ -5,17 +5,17 @@
   <key>CFBundleDevelopmentRegion</key>
   <string>en</string>
   <key>CFBundleDisplayName</key>
-  <string>Voidstrap</string>
+  <string>Nullstrap</string>
   <key>CFBundleExecutable</key>
-  <string>Voidstrap</string>
+  <string>Nullstrap</string>
   <key>CFBundleIconFile</key>
-  <string>Voidstrap</string>
+  <string>Nullstrap</string>
   <key>CFBundleIdentifier</key>
-  <string>dev.voidstrap.desktop</string>
+  <string>dev.nullstrap.desktop</string>
   <key>CFBundleInfoDictionaryVersion</key>
   <string>6.0</string>
   <key>CFBundleName</key>
-  <string>Voidstrap</string>
+  <string>Nullstrap</string>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>

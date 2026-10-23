@@ -5,7 +5,7 @@ use std::ffi::CString;
 use std::panic::{self, AssertUnwindSafe};
 use std::ptr;
 
-const REJECTED: &str = "com/voidstrap/android/ModArchives$Rejected";
+const REJECTED: &str = "com/nullstrap/android/ModArchives$Rejected";
 const IO: &str = "java/io/IOException";
 const STATE: &str = "java/lang/IllegalStateException";
 
@@ -143,12 +143,12 @@ unsafe fn watcher<'a>(handle: jlong) -> Option<&'a mut Watcher> {
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_create(env: *mut JNIEnv, _: jclass) -> jlong {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_create(env: *mut JNIEnv, _: jclass) -> jlong {
     guard(env, 0, || Box::into_raw(Box::new(Watcher::default())) as jlong)
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_destroy(env: *mut JNIEnv, _: jclass, handle: jlong) {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_destroy(env: *mut JNIEnv, _: jclass, handle: jlong) {
     guard(env, (), || {
         if handle != 0 {
             drop(unsafe { Box::from_raw(handle as *mut Watcher) });
@@ -157,7 +157,7 @@ pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_destroy(env: *
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_feed(env: *mut JNIEnv, _: jclass, handle: jlong, line: jstring, now: jlong) -> jobjectArray {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_feed(env: *mut JNIEnv, _: jclass, handle: jlong, line: jstring, now: jlong) -> jobjectArray {
     guard(env, ptr::null_mut(), || unsafe {
         let (Some(w), Some(line)) = (watcher(handle), get_string(env, line)) else {
             return ptr::null_mut();
@@ -175,7 +175,7 @@ pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_feed(env: *mut
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_reset(env: *mut JNIEnv, _: jclass, handle: jlong) -> jobjectArray {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_reset(env: *mut JNIEnv, _: jclass, handle: jlong) -> jobjectArray {
     guard(env, ptr::null_mut(), || unsafe {
         match watcher(handle).and_then(|w| w.reset()) {
             Some(d) => new_strings(env, &data_fields(&d)),
@@ -185,7 +185,7 @@ pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_reset(env: *mu
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_current(env: *mut JNIEnv, _: jclass, handle: jlong) -> jobjectArray {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_current(env: *mut JNIEnv, _: jclass, handle: jlong) -> jobjectArray {
     guard(env, ptr::null_mut(), || unsafe {
         match watcher(handle).and_then(|w| w.current()) {
             Some(d) => new_strings(env, &data_fields(&d)),
@@ -195,12 +195,12 @@ pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_current(env: *
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_inGame(env: *mut JNIEnv, _: jclass, handle: jlong) -> jboolean {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_inGame(env: *mut JNIEnv, _: jclass, handle: jlong) -> jboolean {
     guard(env, 0, || unsafe { watcher(handle).is_some_and(|w| w.in_game()) as jboolean })
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ActivityWatcher_userId(env: *mut JNIEnv, _: jclass, handle: jlong) -> jlong {
+pub extern "system" fn Java_com_nullstrap_android_ActivityWatcher_userId(env: *mut JNIEnv, _: jclass, handle: jlong) -> jlong {
     guard(env, 0, || unsafe { watcher(handle).map_or(0, |w| w.user_id()) })
 }
 
@@ -277,7 +277,7 @@ fn io_error(env: *mut JNIEnv, e: std::io::Error) {
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ApkPatcher_readNative(env: *mut JNIEnv, _: jclass, path: jstring) -> jobjectArray {
+pub extern "system" fn Java_com_nullstrap_android_ApkPatcher_readNative(env: *mut JNIEnv, _: jclass, path: jstring) -> jobjectArray {
     guard(env, ptr::null_mut(), || unsafe {
         let Some(path) = get_string(env, path) else {
             return ptr::null_mut();
@@ -313,7 +313,7 @@ pub extern "system" fn Java_com_voidstrap_android_ApkPatcher_readNative(env: *mu
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_ApkPatcher_patchNative(
+pub extern "system" fn Java_com_nullstrap_android_ApkPatcher_patchNative(
     env: *mut JNIEnv,
     _: jclass,
     base: jstring,
@@ -361,7 +361,7 @@ unsafe fn take_fd(_fd: jint) -> Option<std::fs::File> {
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_Core_call(
+pub extern "system" fn Java_com_nullstrap_android_Core_call(
     env: *mut JNIEnv,
     _: jclass,
     op: jstring,
@@ -393,7 +393,7 @@ unsafe fn pending_exception(env: *mut JNIEnv) -> bool {
 }
 
 #[unsafe(no_mangle)]
-pub extern "system" fn Java_com_voidstrap_android_Helper_streamNative(
+pub extern "system" fn Java_com_nullstrap_android_Helper_streamNative(
     env: *mut JNIEnv,
     _: jclass,
     token: jstring,

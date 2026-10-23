@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Menu.Appearance.Customisation.Description" xml:space="preserve">
+    <value>Configure other customizable Bootstrapper options.</value>
+  </data>
+  <data name="Menu.Appearance.Customisation.Title" xml:space="preserve">
+    <value>Bootstrapper customization</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Everyone listed here generously volunteered their time and effort to help translate Nullstrap. A massive thank you to everyone here!</value>
+  </data>
+  <data name="Common.Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="Common.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Common.Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Common.CopyText" xml:space="preserve">
+    <value>Copy text</value>
+  </data>
+  <data name="Menu.Channel.HWAccel.DisableRestart" xml:space="preserve">
+    <value>Hardware acceleration will be disabled the next time Nullstrap starts.</value>
+  </data>
+  <data name="Menu.Channel.HWAccel.EnableRestart" xml:space="preserve">
+    <value>Hardware acceleration will be re-enabled the next time Nullstrap starts.</value>
+  </data>
+  <data name="Menu.News.LatestUpdates" xml:space="preserve">
+    <value>Latest updates and announcements</value>
+  </data>
+  <data name="Menu.News.Loading" xml:space="preserve">
+    <value>Loading news...</value>
+  </data>
+  <data name="Menu.News.DialogTitle" xml:space="preserve">
+    <value>News Details</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz virtual display</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Mirrors the main screen while Roblox runs and restores it when Roblox closes. The physical screen keeps its own refresh limit.</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>RoReview</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>review</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>reviews</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>No reviews yet</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Write a review...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Signing in...</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>No ratings yet</value>
+  </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minutes ago</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} hours ago</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Powered by </value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>just now</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positive</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>vote</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>votes</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="Ui.Session.OverlayLayout" xml:space="preserve">
+    <value>Overlay Studio</value>
+  </data>
+  <data name="Ui.OverlayStudio.Title" xml:space="preserve">
+    <value>Overlay Studio</value>
+  </data>
+  <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
+    <value>Move, scale, and style every in game overlay with live preview and direct screen dragging.</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDrag" xml:space="preserve">
+    <value>Drag Directly on Screen</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
+    <value>Live Screen Drag Mode</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
+    <value>Drag any overlay card directly across your game window. Press Esc or click Done when finished.</value>
+  </data>
+  <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
+    <value>Magnetic Snap</value>
+  </data>
+  <data name="Ui.OverlayStudio.Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
+    <value>Reset Layer</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
+    <value>Reset All</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
+    <value>Layout Presets</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
+    <value>Minimal Top Bar</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
+    <value>Competitive HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
+    <value>Streamer Clean</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
+    <value>Top Dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
+    <value>Interactive Screen Stage</value>
+  </data>
+  <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
+    <value>Click or drag any overlay on the stage below, or use the 9 point anchor grid to snap it.</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
+    <value>Quick 9 Point Anchor</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
+    <value>Server &amp; Clock</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerNotifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
+    <value>Session Dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
+    <value>Crosshair</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
+    <value>FrameGen HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
+    <value>Dock Panels</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
+    <value>Show server location in game</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocationHint" xml:space="preserve">
+    <value>Displays the active server city and region inside the readout overlay.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClock" xml:space="preserve">
+    <value>Show current time in game</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClockHint" xml:space="preserve">
+    <value>Displays a live clock inside the readout overlay while playing.</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24Hour" xml:space="preserve">
+    <value>Use 24 hour clock format</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24HourHint" xml:space="preserve">
+    <value>Switches the overlay clock between 24 hour and 12 hour time.</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePill" xml:space="preserve">
+    <value>Single line pill layout</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePillHint" xml:space="preserve">
+    <value>Places the server location and clock side by side on one compact line.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ReadoutSize" xml:space="preserve">
+    <value>Readout scale</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdge" xml:space="preserve">
+    <value>Dock screen edge</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdgeHint" xml:space="preserve">
+    <value>Choose whether the session dock slides in from the bottom or top of the game.</value>
+  </data>
+  <data name="Ui.OverlayStudio.BottomEdge" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="Ui.OverlayStudio.TopEdge" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
+    <value>Dock scale</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
+    <value>Background dim strength</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmerHint" xml:space="preserve">
+    <value>Controls how much the game darkens while the session dock is open.</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshair" xml:space="preserve">
+    <value>Show crosshair overlay in game</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
+    <value>Renders a custom aiming reticle over the center of the game window.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
+    <value>Reticle shape</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCross" xml:space="preserve">
+    <value>Cross</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeDot" xml:space="preserve">
+    <value>Dot</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCircle" xml:space="preserve">
+    <value>Circle</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairSize" xml:space="preserve">
+    <value>Reticle size</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairThickness" xml:space="preserve">
+    <value>Line thickness</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
+    <value>Center gap</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
+    <value>Reticle color</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
+    <value>Horizontal center offset</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
+    <value>Vertical center offset</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
+    <value>Recenter Crosshair</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
+    <value>Show Frame Generation HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
+    <value>Displays real time FPS, generated frames, and engine telemetry in game.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPos" xml:space="preserve">
+    <value>Use custom HUD position</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPosHint" xml:space="preserve">
+    <value>Allows placing the Frame Generation telemetry box anywhere on screen.</value>
+  </data>
+  <data name="Ui.OverlayStudio.PanelsDescription" xml:space="preserve">
+    <value>Manage saved positions and pin states for every tool window opened from the session dock.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAllPanels" xml:space="preserve">
+    <value>Reset All Panel Positions</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterPanel" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="Ui.OverlayStudio.PinPanel" xml:space="preserve">
+    <value>Pinned</value>
+  </data>
+  <data name="Ui.OverlayStudio.UnpinnedPanel" xml:space="preserve">
+    <value>Unpinned</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
+    <value>In Game Overlay Studio</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
+    <value>Drag and customize Server Readout, Notifications, Session Dock, Crosshair, and HUD positions live.</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
+    <value>Open Overlay Studio</value>
+  </data>
+  <data name="Ui.Clipper.Title" xml:space="preserve">
+    <value>Video Clipper</value>
+  </data>
+  <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
+    <value>Hardware accelerated capture when you press {0}.</value>
+  </data>
+  <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
+    <value>Hardware accelerated capture. Reset the shortcut to use it in game.</value>
+  </data>
+  <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
+    <value>Hardware GPU video recorder and instant replay clipper.</value>
+  </data>
+  <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
+    <value>Open Clipper</value>
+  </data>
+  <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
+    <value>Clip saved</value>
+  </data>
+  <data name="Ui.Clipper.RecordingMode" xml:space="preserve">
+    <value>Recording mode</value>
+  </data>
+  <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
+    <value>Choose normal on and off recording or rolling clip replay.</value>
+  </data>
+  <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
+    <value>Normal Record (On/Off)</value>
+  </data>
+  <data name="Ui.Clipper.ModeClip" xml:space="preserve">
+    <value>Clip Record (Replay)</value>
+  </data>
+  <data name="Ui.Clipper.BufferLength" xml:space="preserve">
+    <value>Clip replay length</value>
+  </data>
+  <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
+    <value>How many seconds of gameplay to keep in the instant replay buffer.</value>
+  </data>
+  <data name="Ui.Clipper.Sec15" xml:space="preserve">
+    <value>15 sec</value>
+  </data>
+  <data name="Ui.Clipper.Sec30" xml:space="preserve">
+    <value>30 sec</value>
+  </data>
+  <data name="Ui.Clipper.Sec60" xml:space="preserve">
+    <value>60 sec</value>
+  </data>
+  <data name="Ui.Clipper.Sec120" xml:space="preserve">
+    <value>120 sec</value>
+  </data>
+  <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
+    <value>Record on game start</value>
+  </data>
+  <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
+    <value>Automatically start recording when a Roblox game session begins.</value>
+  </data>
+  <data name="Ui.Clipper.RedBorder" xml:space="preserve">
+    <value>Red screen border</value>
+  </data>
+  <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
+    <value>Show classic red bars around the edges of your screen while recording.</value>
+  </data>
+  <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
+    <value>Red Border</value>
+  </data>
+  <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
+    <value>Video quality</value>
+  </data>
+  <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
+    <value>Bitrate preset used by the hardware GPU encoder.</value>
+  </data>
+  <data name="Ui.Clipper.QualityLow" xml:space="preserve">
+    <value>Low (8 Mbps)</value>
+  </data>
+  <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
+    <value>Medium (16 Mbps)</value>
+  </data>
+  <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
+    <value>High (28 Mbps)</value>
+  </data>
+  <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
+    <value>Ultra (50 Mbps)</value>
+  </data>
+  <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
+    <value>Ultra</value>
+  </data>
+  <data name="Ui.Clipper.Resolution" xml:space="preserve">
+    <value>Resolution</value>
+  </data>
+  <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
+    <value>Output resolution of saved recordings and clips.</value>
+  </data>
+  <data name="Ui.Clipper.ResNative" xml:space="preserve">
+    <value>Native</value>
+  </data>
+  <data name="Ui.Clipper.FrameRate" xml:space="preserve">
+    <value>Frame rate</value>
+  </data>
+  <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
+    <value>Target capture frame rate.</value>
+  </data>
+  <data name="Ui.Clipper.Codec" xml:space="preserve">
+    <value>Encoder codec</value>
+  </data>
+  <data name="Ui.Clipper.CodecHint" xml:space="preserve">
+    <value>Hardware GPU encoder format.</value>
+  </data>
+  <data name="Ui.Clipper.GameAudio" xml:space="preserve">
+    <value>Capture game audio</value>
+  </data>
+  <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
+    <value>Record desktop and game audio in saved videos.</value>
+  </data>
+  <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
+    <value>Game Audio</value>
+  </data>
+  <data name="Ui.Clipper.Microphone" xml:space="preserve">
+    <value>Capture microphone</value>
+  </data>
+  <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
+    <value>Mix microphone input into saved videos.</value>
+  </data>
+  <data name="Ui.Clipper.MicShort" xml:space="preserve">
+    <value>Mic</value>
+  </data>
+  <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
+    <value>Status indicator badge</value>
+  </data>
+  <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
+    <value>Show a compact recording badge in the corner of the screen.</value>
+  </data>
+  <data name="Ui.Clipper.HudBadge" xml:space="preserve">
+    <value>HUD Badge</value>
+  </data>
+  <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
+    <value>Saved clips folder</value>
+  </data>
+  <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
+    <value>Open the folder where recordings and clips are stored.</value>
+  </data>
+  <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
+    <value>Open Folder</value>
+  </data>
+  <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
+    <value>Capture &amp; Quality</value>
+  </data>
+  <data name="Ui.Clipper.QualitySection" xml:space="preserve">
+    <value>Quality, Resolution &amp; FPS</value>
+  </data>
+  <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
+    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+  </data>
+  <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
+    <value>Indicators &amp; Audio</value>
+  </data>
+  <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
+    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+  </data>
+  <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
+    <value>Recording Shortcut</value>
+  </data>
+  <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
+    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+  </data>
+  <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
+    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+  </data>
+  <data name="Ui.Clipper.PressKeys" xml:space="preserve">
+    <value>Press keys...</value>
+  </data>
+  <data name="Ui.Clipper.Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="Ui.Clipper.StartRecording" xml:space="preserve">
+    <value>Start Recording</value>
+  </data>
+  <data name="Ui.Clipper.StopRecording" xml:space="preserve">
+    <value>Stop Recording</value>
+  </data>
+  <data name="Ui.Clipper.SaveClip" xml:space="preserve">
+    <value>Save Clip</value>
+  </data>
+  <data name="Ui.Clipper.Saving" xml:space="preserve">
+    <value>Saving...</value>
+  </data>
+  <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
+    <value>Could not save clip.</value>
+  </data>
+  <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
+    <value>Could not delete clip</value>
+  </data>
+  <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
+    <value>Recorder Disabled</value>
+  </data>
+  <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
+    <value>Turn on the switch or click Start Recording to begin.</value>
+  </data>
+  <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
+    <value>Preparing hardware video encoder...</value>
+  </data>
+  <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
+    <value>Recording</value>
+  </data>
+  <data name="Ui.Clipper.StatusReadyRecord" xml:space="preserve">
+    <value>Ready to Record</value>
+  </data>
+  <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
+    <value>Click Start Recording or press {0} to record.</value>
+  </data>
+  <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
+    <value>Clip Buffer Ready</value>
+  </data>
+  <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
+    <value>Starting Capture...</value>
+  </data>
+  <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
+    <value>Initializing GPU capture pipeline...</value>
+  </data>
+  <data name="Ui.Clipper.SavedClips" xml:space="preserve">
+    <value>Saved Clips</value>
+  </data>
+  <data name="Ui.Clipper.Refresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
+    <value>No recordings or clips saved yet.</value>
+  </data>
+  <data name="Ui.Clipper.Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Ui.Clipper.Trim" xml:space="preserve">
+    <value>Trim</value>
+  </data>
+  <data name="Ui.Clipper.Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Ui.Clipper.Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Ui.Clipper.Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Ui.Clipper.End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
+    <value>Save as Copy</value>
+  </data>
+  <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
+    <value>Trim Original</value>
+  </data>
+  <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
+    <value>Trim failed.</value>
+  </data>
+  <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
+    <value>Trimmed clip saved</value>
+  </data>
+  <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
+    <value>REC</value>
+  </data>
+  <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
+    <value>CLIP</value>
+  </data>
+  <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
+    <value>SAVED</value>
+  </data>
+  <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
+    <value>IDLE</value>
+  </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Manage Mods</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>1 Mod Applied</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} Mods Applied</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Title" xml:space="preserve">
+    <value>Roblox runtime</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Description" xml:space="preserve">
+    <value>Choose how Nullstrap runs Roblox on Linux. You can switch at any time from the Roblox version menu.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Sober" xml:space="preserve">
+    <value>Sober and Vinegar (recommended)</value>
+  </data>
+  <data name="Installer.Linux.Runtime.SoberHint" xml:space="preserve">
+    <value>Sober plays the Android version of Roblox and Vinegar runs Roblox Studio.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Rosemary" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Installer.Linux.Runtime.RosemaryHint" xml:space="preserve">
+    <value>Rosemary runs the macOS versions of Roblox and Roblox Studio. It is new and still experimental.</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerTitle" xml:space="preserve">
+    <value>Rosemary for Roblox</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerSubtitle" xml:space="preserve">
+    <value>Plays the macOS version of Roblox on Linux</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioTitle" xml:space="preserve">
+    <value>Rosemary for Roblox Studio</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioSubtitle" xml:space="preserve">
+    <value>Runs the macOS version of Roblox Studio on Linux</value>
+  </data>
+  <data name="Menu.Rosemary.Title" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Menu.Rosemary.Description" xml:space="preserve">
+    <value>Configure how Rosemary runs the macOS versions of Roblox and Roblox Studio on Linux.</value>
+  </data>
+  <data name="Menu.Rosemary.Installed" xml:space="preserve">
+    <value>Rosemary {0} is installed</value>
+  </data>
+  <data name="Menu.Rosemary.NotInstalled" xml:space="preserve">
+    <value>Not installed yet, Nullstrap installs Rosemary when you launch</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxInstalled" xml:space="preserve">
+    <value>macOS Roblox {0} is ready</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxNotInstalled" xml:space="preserve">
+    <value>macOS Roblox downloads on your first launch</value>
+  </data>
+  <data name="Menu.Rosemary.StudioInstalled" xml:space="preserve">
+    <value>macOS Roblox Studio {0} is ready</value>
+  </data>
+  <data name="Menu.Rosemary.StudioNotInstalled" xml:space="preserve">
+    <value>macOS Roblox Studio downloads when you first launch Studio</value>
+  </data>
+  <data name="Menu.Rosemary.Update" xml:space="preserve">
+    <value>Update now</value>
+  </data>
+  <data name="Menu.Rosemary.OpenFolder" xml:space="preserve">
+    <value>Open folder</value>
+  </data>
+  <data name="Menu.Rosemary.Updating" xml:space="preserve">
+    <value>Updating</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Display" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Input" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Title" xml:space="preserve">
+    <value>Vertical sync</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Description" xml:space="preserve">
+    <value>Overrides how the game paces its frames. Off allows an unlocked frame rate.</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Default" xml:space="preserve">
+    <value>Game default</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Adaptive" xml:space="preserve">
+    <value>Adaptive</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Title" xml:space="preserve">
+    <value>Window title bar</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Description" xml:space="preserve">
+    <value>Choose whether Rosemary draws a Mac style title bar or leaves it to your desktop.</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Mac" xml:space="preserve">
+    <value>Mac style</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Desktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Title" xml:space="preserve">
+    <value>Command key</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Description" xml:space="preserve">
+    <value>Choose which key Roblox treats as the Mac Command key.</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Title" xml:space="preserve">
+    <value>Keep the pointer in the window</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Description" xml:space="preserve">
+    <value>Stops the pointer from leaving the game window while you play.</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Title" xml:space="preserve">
+    <value>Ctrl click stays a left click</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Description" xml:space="preserve">
+    <value>Keeps left clicks made while holding Ctrl as left clicks instead of right clicks, which helps games where Ctrl crouches.</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Title" xml:space="preserve">
+    <value>Use OpenGL</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Description" xml:space="preserve">
+    <value>Hides Vulkan from Rosemary so Roblox uses its OpenGL renderer. Try this if the game does not show anything.</value>
+  </data>
+  <data name="Menu.Rosemary.Notice" xml:space="preserve">
+    <value>Rosemary is new and still experimental.</value>
+  </data>
+</root>

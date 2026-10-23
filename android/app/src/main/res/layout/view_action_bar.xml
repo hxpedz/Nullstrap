@@ -16,7 +16,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bar_target"
-        style="@style/Widget.Voidstrap.Button.Standard"
+        style="@style/Widget.Nullstrap.Button.Standard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="40dp"

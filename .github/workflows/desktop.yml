@@ -43,24 +43,24 @@ jobs:
             ~/.nuget/packages
             ~/.cargo/registry/index
             ~/.cargo/registry/cache
-            ~/.cache/voidstrap/zigbuild
-            ~/.cache/voidstrap/rcodesign
+            ~/.cache/nullstrap/zigbuild
+            ~/.cache/nullstrap/rcodesign
           key: deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.csproj', '**/Directory.Build.*', 'native/**/Cargo.lock', 'build/Packaging/MacOS/package.sh') }}
           restore-keys: deps-${{ runner.os }}-${{ runner.arch }}-
       - name: Cache compiled native libraries
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: |
-            src/Voidstrap.App/obj/voidimage/x86_64-pc-windows-msvc/release
-            src/Voidstrap.App/obj/framepacer/x86_64-pc-windows-msvc/release
-            src/Voidstrap.App/obj/voidclip/x86_64-pc-windows-msvc/release
-            src/Voidstrap.App/obj/rishade/x86_64-pc-windows-msvc/release
-            src/Voidstrap.App/obj/rishade/depth
+            src/Nullstrap.App/obj/nullimage/x86_64-pc-windows-msvc/release
+            src/Nullstrap.App/obj/framepacer/x86_64-pc-windows-msvc/release
+            src/Nullstrap.App/obj/nullclip/x86_64-pc-windows-msvc/release
+            src/Nullstrap.App/obj/rishade/x86_64-pc-windows-msvc/release
+            src/Nullstrap.App/obj/rishade/depth
           key: native-${{ runner.os }}-${{ hashFiles('native/**/Cargo.lock', 'native/**/Cargo.toml', 'native/rishade-depth/CMakeLists.txt') }}-${{ hashFiles('native/**/*.rs', 'native/**/*.cpp', 'native/**/*.h') }}
           restore-keys: native-${{ runner.os }}-${{ hashFiles('native/**/Cargo.lock', 'native/**/Cargo.toml', 'native/rishade-depth/CMakeLists.txt') }}-
-      - run: dotnet build Voidstrap.sln -c Debug -warnaserror
-      - run: dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
-      - run: dotnet publish src/Voidstrap.Desktop.Windows/Voidstrap.Desktop.Windows.csproj -c Release -r win-x64 --self-contained true -o artifacts/windows-desktop
+      - run: dotnet build Nullstrap.sln -c Debug -warnaserror
+      - run: dotnet publish src/Nullstrap.App/Nullstrap.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
+      - run: dotnet publish src/Nullstrap.Desktop.Windows/Nullstrap.Desktop.Windows.csproj -c Release -r win-x64 --self-contained true -o artifacts/windows-desktop
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: windows
@@ -90,7 +90,7 @@ jobs:
     steps:
       - name: Share one native build folder across steps
         shell: bash
-        run: echo "VOIDSTRAP_NATIVE_TARGET_ROOT=$RUNNER_TEMP/voidstrap-native-target" >> "$GITHUB_ENV"
+        run: echo "NULLSTRAP_NATIVE_TARGET_ROOT=$RUNNER_TEMP/nullstrap-native-target" >> "$GITHUB_ENV"
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           submodules: recursive
@@ -101,10 +101,10 @@ jobs:
       - name: Cache compiled native libraries
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
-          path: ${{ runner.temp }}/voidstrap-native-target
-          key: native-${{ matrix.rid }}-${{ hashFiles('native/voidimage/Cargo.lock', 'native/voidclip/Cargo.lock') }}-${{ hashFiles('native/voidimage/**/*.rs', 'native/voidclip/**/*.rs') }}
-          restore-keys: native-${{ matrix.rid }}-${{ hashFiles('native/voidimage/Cargo.lock', 'native/voidclip/Cargo.lock') }}-
-      - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
+          path: ${{ runner.temp }}/nullstrap-native-target
+          key: native-${{ matrix.rid }}-${{ hashFiles('native/nullimage/Cargo.lock', 'native/nullclip/Cargo.lock') }}-${{ hashFiles('native/nullimage/**/*.rs', 'native/nullclip/**/*.rs') }}
+          restore-keys: native-${{ matrix.rid }}-${{ hashFiles('native/nullimage/Cargo.lock', 'native/nullclip/Cargo.lock') }}-
+      - run: dotnet build src/Nullstrap.Desktop.MacOS/Nullstrap.Desktop.MacOS.csproj -c Debug -warnaserror
       - &image-check-harness
         name: Write the image check harness
         shell: bash
@@ -119,7 +119,7 @@ jobs:
           using System.Windows.Controls;
           using System.Windows.Media;
           using System.Windows.Media.Imaging;
-          using Voidstrap.Utility;
+          using Nullstrap.Utility;
 
           using Image<Rgba32> fixture = new(64, 32);
           for (int y = 0; y < 32; y++)
@@ -141,7 +141,7 @@ jobs:
                   preview = decoded;
                   if (OperatingSystem.IsMacOS())
                   {
-                      byte[] native = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(bytes, 32, 32, out int width, out int height);
+                      byte[] native = Nullstrap.Platform.MacOS.MacOSImageDecoder.Decode(bytes, 32, 32, out int width, out int height);
                       Assert(width == 32 && height == 16 && native[2] > 180 && native[^4] > 180, "Native image orientation or colors differ");
                   }
               }
@@ -154,7 +154,7 @@ jobs:
           fixture[0, 0] = new Rgba32(200, 100, 50, 128);
           if (OperatingSystem.IsMacOS())
           {
-              byte[] transparent = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(Encode("png"), 64, 32, out _, out _);
+              byte[] transparent = Nullstrap.Platform.MacOS.MacOSImageDecoder.Decode(Encode("png"), 64, 32, out _, out _);
               Assert(Math.Abs(transparent[2] - 200) <= 2 && Math.Abs(transparent[1] - 100) <= 2 && Math.Abs(transparent[0] - 50) <= 2 && transparent[3] == 128, "Native transparency was not preserved");
           }
           Assert(SafeImaging.FromBytes([1, 2, 3, 4]) == null && SafeImaging.FromBytes([]) == null, "Invalid image accepted");
@@ -244,7 +244,7 @@ jobs:
               retina.Add(sharpIcon);
               Console.WriteLine("Real Roblox avatars and game icons decoded at normal and double resolution");
               Application robloxApp = new();
-              Voidstrap.UI.LinuxWebImageSource.Install();
+              Nullstrap.UI.LinuxWebImageSource.Install();
               Grid board = new() { Background = Brushes.Black };
               for (int index = 0; index < 4; index++)
                   board.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(160) });
@@ -276,7 +276,7 @@ jobs:
                   }
               }
               Window robloxWindow = new() { Title = "Roblox image validation", Content = board, Width = 640, Height = 348, Left = 100, Top = 150, WindowStartupLocation = WindowStartupLocation.Manual, ResizeMode = ResizeMode.NoResize };
-              Voidstrap.UI.LinuxWebImageSource.AttachWindow(robloxWindow);
+              Nullstrap.UI.LinuxWebImageSource.AttachWindow(robloxWindow);
               robloxWindow.ContentRendered += OnRobloxRendered;
               robloxApp.Run(robloxWindow);
               return;
@@ -284,7 +284,7 @@ jobs:
           if (args.Contains("gallery"))
           {
               Application app = new();
-              Voidstrap.UI.LinuxWebImageSource.Install();
+              Nullstrap.UI.LinuxWebImageSource.Install();
               Grid gallery = new() { Background = Brushes.Black };
               for (int index = 0; index < 3; index++)
                   gallery.ColumnDefinitions.Add(new ColumnDefinition());
@@ -298,7 +298,7 @@ jobs:
               gallery.Children.Add(brush);
               gallery.Children.Add(profile);
               Window window = new() { Title = "Image validation", Content = gallery, Width = 780, Height = 320, Left = 100, Top = 150, WindowStartupLocation = WindowStartupLocation.Manual };
-              Voidstrap.UI.LinuxWebImageSource.AttachWindow(window);
+              Nullstrap.UI.LinuxWebImageSource.AttachWindow(window);
               window.ContentRendered += OnGalleryRendered;
               app.Run(window);
           }
@@ -356,7 +356,7 @@ jobs:
               return stream.ToArray();
           }
 
-          namespace Voidstrap
+          namespace Nullstrap
           {
               internal static class App
               {
@@ -371,7 +371,7 @@ jobs:
               internal static class Paths { internal static string Cache => Path.Combine(Path.GetTempPath(), "image-check", "cache"); }
           }
 
-          namespace Voidstrap.Utility
+          namespace Nullstrap.Utility
           {
               internal static class Platform
               {
@@ -383,7 +383,7 @@ jobs:
               internal static class VpnHttpClient { internal static System.Net.Http.HttpClient Create(TimeSpan timeout) => new() { Timeout = timeout }; }
           }
 
-          namespace Voidstrap.Platform.MacOS
+          namespace Nullstrap.Platform.MacOS
           {
               internal static class MacOSWindow
               {
@@ -403,14 +403,14 @@ jobs:
             <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ProGpuWpfUsePortableFrameworkReferences>true</ProGpuWpfUsePortableFrameworkReferences><ProGpuWpfSystemSecurityCryptographyXmlVersion>10.0.13</ProGpuWpfSystemSecurityCryptographyXmlVersion><LinuxProGpuWpfAssembly>$root/external/LibreWPF/ProGPU.Wpf.dll</LinuxProGpuWpfAssembly><LinuxPresentationCoreAssembly>$root/external/LibreWPF/PresentationCore.dll</LinuxPresentationCoreAssembly><LinuxPresentationFrameworkAssembly>$root/external/LibreWPF/PresentationFramework.dll</LinuxPresentationFrameworkAssembly></PropertyGroup>
             <ItemGroup>
               <Compile Include="$RUNNER_TEMP/image-check-src/MacOSImages.cs" />
-              <Compile Include="$root/src/Voidstrap.App/Utility/SafeImaging.cs" />
-              <Compile Include="$root/src/Voidstrap.App/Utility/NativeImaging.cs" />
-              <Compile Include="$root/src/Voidstrap.App/Utility/Raster.cs" />
-              <Compile Include="$root/src/Voidstrap.App/Utility/RasterFallback.cs" />
-              <Compile Include="$root/src/Voidstrap.App/Utility/AppImage.cs" />
-              <Compile Include="$root/src/Voidstrap.App/Utility/DynamicRenderSystem.cs" />
-              <Compile Include="$root/src/Voidstrap.App/UI/LinuxWebImageSource.cs" />
-              <Compile Include="$root/src/Voidstrap.Platform.MacOS/MacOSImageDecoder.cs" />
+              <Compile Include="$root/src/Nullstrap.App/Utility/SafeImaging.cs" />
+              <Compile Include="$root/src/Nullstrap.App/Utility/NativeImaging.cs" />
+              <Compile Include="$root/src/Nullstrap.App/Utility/Raster.cs" />
+              <Compile Include="$root/src/Nullstrap.App/Utility/RasterFallback.cs" />
+              <Compile Include="$root/src/Nullstrap.App/Utility/AppImage.cs" />
+              <Compile Include="$root/src/Nullstrap.App/Utility/DynamicRenderSystem.cs" />
+              <Compile Include="$root/src/Nullstrap.App/UI/LinuxWebImageSource.cs" />
+              <Compile Include="$root/src/Nullstrap.Platform.MacOS/MacOSImageDecoder.cs" />
               <Reference Include="PresentationCore"><HintPath>$root/external/LibreWPF/PresentationCore.dll</HintPath></Reference>
               <Reference Include="PresentationFramework"><HintPath>$root/external/LibreWPF/PresentationFramework.dll</HintPath></Reference>
               <Reference Include="ProGPU.Wpf"><HintPath>$root/external/LibreWPF/ProGPU.Wpf.dll</HintPath></Reference>
@@ -440,7 +440,7 @@ jobs:
           swift "$check/fixture.swift" "$check/fixture.heic"
           dotnet build "$check/ImageCheck.csproj" -warnaserror --nologo
           case "$(uname -m)" in arm64) image_rid=osx-arm64 ;; *) image_rid=osx-x64 ;; esac
-          bash "$root/build/Packaging/build-voidimage.sh" "$image_rid" "$check/bin/Debug/net10.0-windows/libvoidimage.dylib" "$RUNNER_TEMP/voidimage-target"
+          bash "$root/build/Packaging/build-nullimage.sh" "$image_rid" "$check/bin/Debug/net10.0-windows/libnullimage.dylib" "$RUNNER_TEMP/nullimage-target"
           exec dotnet "$check/bin/Debug/net10.0-windows/ImageCheck.dll" "$check/fixture.heic" "$@"
           SHELLSCRIPT
       - name: Check macOS image formats with synthetic data
@@ -453,12 +453,12 @@ jobs:
           cat > "$probe/KeyboardCheck.csproj" <<EOF
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
-            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSKeyboardLayout.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSInputAccess.cs" /><Compile Include="$PWD/src/Voidstrap.App/KeyRouting/MacSnapTap.cs" /><Compile Include="$PWD/src/Voidstrap.App/KeyRouting/OpposingKeyResolver.cs" /></ItemGroup>
+            <ItemGroup><Compile Include="$PWD/src/Nullstrap.Platform.MacOS/MacOSKeyboardLayout.cs" /><Compile Include="$PWD/src/Nullstrap.Platform.MacOS/MacOSInputAccess.cs" /><Compile Include="$PWD/src/Nullstrap.App/KeyRouting/MacSnapTap.cs" /><Compile Include="$PWD/src/Nullstrap.App/KeyRouting/OpposingKeyResolver.cs" /></ItemGroup>
           </Project>
           EOF
           cat > "$probe/Program.cs" <<'EOF'
           using System.Runtime.InteropServices;
-          using Voidstrap.Platform.MacOS;
+          using Nullstrap.Platform.MacOS;
           ushort[] fallback = new ushort[256];
           Array.Fill(fallback, ushort.MaxValue);
           using var layout = new MacOSKeyboardLayout();
@@ -480,25 +480,25 @@ jobs:
           }
           Console.WriteLine("All native keyboard filter APIs are available");
           bool granted = MacOSInputAccess.IsGranted;
-          bool started = Voidstrap.KeyRouting.MacSnapTap.Start([[65, 68]], Voidstrap.KeyRouting.OpposingKeyPriority.LastPressed);
+          bool started = Nullstrap.KeyRouting.MacSnapTap.Start([[65, 68]], Nullstrap.KeyRouting.OpposingKeyPriority.LastPressed);
           if (started != granted) throw new Exception("Keyboard filter startup did not match Accessibility access");
           if (started)
           {
               await Task.Delay(750);
-              var field = typeof(Voidstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
+              var field = typeof(Nullstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
               object session = field.GetValue(null)!;
               if (!(bool)session.GetType().GetField("Ready")!.GetValue(session)!) throw new Exception("Native keyboard filter stopped during initialization");
           }
-          Voidstrap.KeyRouting.MacSnapTap.Stop();
-          Voidstrap.KeyRouting.MacSnapTap.Stop();
-          if (typeof(Voidstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!.GetValue(null) != null) throw new Exception("Native keyboard filter did not finish cleanup");
+          Nullstrap.KeyRouting.MacSnapTap.Stop();
+          Nullstrap.KeyRouting.MacSnapTap.Stop();
+          if (typeof(Nullstrap.KeyRouting.MacSnapTap).GetField("_session", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!.GetValue(null) != null) throw new Exception("Native keyboard filter did not finish cleanup");
           Console.WriteLine(started ? "Native keyboard filter started and stopped successfully" : "Keyboard filter correctly refused missing Accessibility access");
-          namespace Voidstrap
+          namespace Nullstrap
           {
               internal static class App { internal static Log Logger { get; } = new(); }
               internal sealed class Log { internal void WriteLine(string name, string message) => Console.WriteLine(name + ": " + message); }
           }
-          namespace Voidstrap.Platform.MacOS
+          namespace Nullstrap.Platform.MacOS
           {
               internal static class MacOSProcessPolicy { internal static int FrontmostProcessId() => 0; }
           }
@@ -514,28 +514,28 @@ jobs:
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
             <ItemGroup>
-              <Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSBinaryCookies.cs" />
-              <Compile Include="$PWD/src/Voidstrap.App/Utility/MacModSync.cs" />
-              <Compile Include="$PWD/src/Voidstrap.App/Utility/ManagedModStore.cs" />
-              <Compile Include="$PWD/src/Voidstrap.App/Utility/ModPackInfo.cs" />
-              <Compile Include="$PWD/src/Voidstrap.App/Integrations/LaunchInterceptor.cs" />
+              <Compile Include="$PWD/src/Nullstrap.Platform.MacOS/MacOSBinaryCookies.cs" />
+              <Compile Include="$PWD/src/Nullstrap.App/Utility/MacModSync.cs" />
+              <Compile Include="$PWD/src/Nullstrap.App/Utility/ManagedModStore.cs" />
+              <Compile Include="$PWD/src/Nullstrap.App/Utility/ModPackInfo.cs" />
+              <Compile Include="$PWD/src/Nullstrap.App/Integrations/LaunchInterceptor.cs" />
             </ItemGroup>
           </Project>
           EOF
           python3 - "$check" <<'PY'
           import sys
           from pathlib import Path
-          source = Path('src/Voidstrap.App/Bootstrapper.cs').read_text()
+          source = Path('src/Nullstrap.App/Bootstrapper.cs').read_text()
           start = source.index('    private static readonly string[] CanonicalModRoots')
           end = source.index('    private static void RepairFlattenedModNames()', start)
-          Path(sys.argv[1], 'RootRepair.cs').write_text('using Voidstrap; namespace Voidstrap.Utility; internal static class RootRepair {\n' + source[start:end] + '\n}')
+          Path(sys.argv[1], 'RootRepair.cs').write_text('using Nullstrap; namespace Nullstrap.Utility; internal static class RootRepair {\n' + source[start:end] + '\n}')
           PY
           cat > "$check/Program.cs" <<'EOF'
           using System.Buffers.Binary;
           using System.Text;
-          using Voidstrap;
-          using Voidstrap.Utility;
-          using Voidstrap.Platform.MacOS;
+          using Nullstrap;
+          using Nullstrap.Utility;
+          using Nullstrap.Platform.MacOS;
           string root = Path.Combine(Path.GetTempPath(), "mod-validation-" + Guid.NewGuid().ToString("N"));
           Paths.Root = root;
           Directory.CreateDirectory(root);
@@ -601,20 +601,20 @@ jobs:
               BinaryPrimitives.WriteInt32LittleEndian(broken.AsSpan(20), int.MaxValue);
               Assert(Read(broken) is null);
               for (int length = 0; length < broken.Length; length++) Assert(Read(broken[..length]) is null);
-              string publicUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818);
-              string jobUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, "11111111-1111-1111-1111-111111111111");
-              string privateUri = Voidstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, accessCode: "synthetic&code=1");
-              Assert(privateUri.EndsWith("accessCode=synthetic%26code%3D1") && Voidstrap.Integrations.LaunchInterceptor.ContainsSpecificGameInstance(privateUri));
-              Assert(Voidstrap.Integrations.LaunchInterceptor.ExtractPlaceId(jobUri) == 1818);
-              Assert(await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(privateUri) is null);
-              Assert(await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(jobUri) is null);
-              Assert(Voidstrap.Integrations.VoidstrapMatchmaker.Calls == 0);
-              Assert((await Voidstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(publicUri))?.Contains("gameInstanceId=") == true);
-              Assert(Voidstrap.Integrations.VoidstrapMatchmaker.Calls == 1);
+              string publicUri = Nullstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818);
+              string jobUri = Nullstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, "11111111-1111-1111-1111-111111111111");
+              string privateUri = Nullstrap.Integrations.LaunchInterceptor.BuildExperienceUri(1818, accessCode: "synthetic&code=1");
+              Assert(privateUri.EndsWith("accessCode=synthetic%26code%3D1") && Nullstrap.Integrations.LaunchInterceptor.ContainsSpecificGameInstance(privateUri));
+              Assert(Nullstrap.Integrations.LaunchInterceptor.ExtractPlaceId(jobUri) == 1818);
+              Assert(await Nullstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(privateUri) is null);
+              Assert(await Nullstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(jobUri) is null);
+              Assert(Nullstrap.Integrations.NullstrapMatchmaker.Calls == 0);
+              Assert((await Nullstrap.Integrations.LaunchInterceptor.MaybeRewriteForClosestAsync(publicUri))?.Contains("gameInstanceId=") == true);
+              Assert(Nullstrap.Integrations.NullstrapMatchmaker.Calls == 1);
               Console.WriteLine("macOS mod, pack, restoration, cookie and launch selection checks passed");
           }
           finally { Directory.Delete(root, true); }
-          namespace Voidstrap
+          namespace Nullstrap
           {
               internal static class Paths
               {
@@ -628,16 +628,16 @@ jobs:
               internal static class App { public static Log Logger { get; } = new(); }
               internal sealed class Log { public void WriteLine(string component, string message) { } }
           }
-          namespace Voidstrap.Utility
+          namespace Nullstrap.Utility
           {
               internal static class ExternalModConfigs { public static void RemoveConfigs(string id) { } }
               internal static class ModAutoFixer { public static bool IsIgnoredModFile(string path) => false; }
           }
-          namespace Voidstrap.Integrations.ClassicTopBar
+          namespace Nullstrap.Integrations.ClassicTopBar
           {
               internal static class ClassicTopBarMod { public static HashSet<string> FeatureModIds() => []; }
           }
-          namespace Voidstrap.Integrations
+          namespace Nullstrap.Integrations
           {
               internal static class ServerMatchmaker
               {
@@ -648,7 +648,7 @@ jobs:
               internal static class RobloxAuthLauncher { public static string? TryGetRobloxSecurityCookie() => "synthetic"; }
               internal sealed class MatchmakerCandidate { public string JobId => "22222222-2222-2222-2222-222222222222"; public Location? Datacenter => null; public double DistanceKm => 0; }
               internal sealed class Location { public string City => ""; }
-              internal static class VoidstrapMatchmaker
+              internal static class NullstrapMatchmaker
               {
                   public static int Calls;
                   public static int ResolveEffectiveCandidateCount() => 1;
@@ -667,12 +667,12 @@ jobs:
           cat > "$check/OverlayCheck.csproj" <<EOF
           <Project Sdk="Microsoft.NET.Sdk">
             <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
-            <ItemGroup><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSOverlayWindow.cs" /><Compile Include="$PWD/src/Voidstrap.Platform.MacOS/MacOSWindow.cs" /></ItemGroup>
+            <ItemGroup><Compile Include="$PWD/src/Nullstrap.Platform.MacOS/MacOSOverlayWindow.cs" /><Compile Include="$PWD/src/Nullstrap.Platform.MacOS/MacOSWindow.cs" /></ItemGroup>
           </Project>
           EOF
           cat > "$check/Program.cs" <<'EOF'
           using System.Runtime.InteropServices;
-          using Voidstrap.Platform.MacOS;
+          using Nullstrap.Platform.MacOS;
           internal static partial class Program
           {
               [STAThread]
@@ -822,31 +822,31 @@ jobs:
       - name: Mount and inspect disk image
         shell: bash
         run: |
-          image="artifacts/Voidstrap-${{ matrix.rid }}.dmg"
+          image="artifacts/Nullstrap-${{ matrix.rid }}.dmg"
           test -s "$image"
           mountpoint="$(mktemp -d)"
           trap 'hdiutil detach "$mountpoint" >/dev/null 2>&1 || true; rmdir "$mountpoint"' EXIT
           hdiutil attach -readonly -nobrowse -mountpoint "$mountpoint" "$image"
-          app="$mountpoint/Voidstrap.app"
+          app="$mountpoint/Nullstrap.app"
           plutil -lint "$app/Contents/Info.plist"
-          test -x "$app/Contents/MacOS/Voidstrap"
-          test -x "$app/Contents/MacOS/voidstrap-virtualdisplay"
-          test -s "$app/Contents/Resources/Voidstrap.icns"
+          test -x "$app/Contents/MacOS/Nullstrap"
+          test -x "$app/Contents/MacOS/nullstrap-virtualdisplay"
+          test -s "$app/Contents/Resources/Nullstrap.icns"
           codesign --verify --deep --strict --verbose=2 "$app"
-          codesign --verify --strict "$app/Contents/MacOS/voidstrap-virtualdisplay"
+          codesign --verify --strict "$app/Contents/MacOS/nullstrap-virtualdisplay"
           codesign --display --entitlements - --xml "$app" 2> /dev/null | python3 -c 'import plistlib, sys; assert plistlib.loads(sys.stdin.buffer.read())["com.apple.security.cs.allow-jit"] is True'
           case "${{ matrix.rid }}" in
             osx-x64) arch=x86_64 ;;
             osx-arm64) arch=arm64 ;;
           esac
-          lipo "$app/Contents/MacOS/Voidstrap" -verify_arch "$arch"
-          lipo "$app/Contents/MacOS/voidstrap-virtualdisplay" -verify_arch "$arch"
+          lipo "$app/Contents/MacOS/Nullstrap" -verify_arch "$arch"
+          lipo "$app/Contents/MacOS/nullstrap-virtualdisplay" -verify_arch "$arch"
           mkdir -p "$RUNNER_TEMP/archive-${{ matrix.rid }}" "$RUNNER_TEMP/installed-${{ matrix.rid }}"
-          tar -xzf "artifacts/Voidstrap-${{ matrix.rid }}.tar.gz" -C "$RUNNER_TEMP/archive-${{ matrix.rid }}"
-          archive_app="$RUNNER_TEMP/archive-${{ matrix.rid }}/Voidstrap.app"
+          tar -xzf "artifacts/Nullstrap-${{ matrix.rid }}.tar.gz" -C "$RUNNER_TEMP/archive-${{ matrix.rid }}"
+          archive_app="$RUNNER_TEMP/archive-${{ matrix.rid }}/Nullstrap.app"
           codesign --verify --deep --strict --verbose=2 "$archive_app"
-          cmp "$app/Contents/MacOS/Voidstrap" "$archive_app/Contents/MacOS/Voidstrap"
-          ditto "$app" "$RUNNER_TEMP/installed-${{ matrix.rid }}/Voidstrap.app"
+          cmp "$app/Contents/MacOS/Nullstrap" "$archive_app/Contents/MacOS/Nullstrap"
+          ditto "$app" "$RUNNER_TEMP/installed-${{ matrix.rid }}/Nullstrap.app"
       - name: Launch the installed app
         env:
           PACKAGE_RID: ${{ matrix.rid }}
@@ -854,7 +854,7 @@ jobs:
           python3 - <<'PY'
           import os, pathlib, subprocess, time
           root = pathlib.Path(os.environ['RUNNER_TEMP'])
-          app = root / ('installed-' + os.environ['PACKAGE_RID']) / 'Voidstrap.app'
+          app = root / ('installed-' + os.environ['PACKAGE_RID']) / 'Nullstrap.app'
           log = root / 'launch.log'
           probe = '''
           import CoreGraphics
@@ -881,7 +881,7 @@ jobs:
               except subprocess.TimeoutExpired:
                   return False
           with log.open('w') as output:
-              process = subprocess.Popen([str(app / 'Contents/MacOS/Voidstrap'), '-menu'], stdout=output, stderr=subprocess.STDOUT)
+              process = subprocess.Popen([str(app / 'Contents/MacOS/Nullstrap'), '-menu'], stdout=output, stderr=subprocess.STDOUT)
               try:
                   deadline = time.monotonic() + 90
                   visible = False
@@ -930,8 +930,8 @@ jobs:
         with:
           dotnet-version: 10.0.x
       - *dependency-cache
-      - run: dotnet build src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-cross/
-      - run: dotnet build src/Voidstrap.Desktop.Linux/Voidstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
+      - run: dotnet build src/Nullstrap.Cross/Nullstrap.Cross.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-cross/
+      - run: dotnet build src/Nullstrap.Desktop.Linux/Nullstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
 
   linux_aur:
     if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
@@ -1005,7 +1005,7 @@ jobs:
       - if: matrix.rid == 'linux-x64'
         run: |
           for attempt in 1 2 3 4 5; do docker pull fedora:latest && break; sleep $((attempt * 15)); done
-          docker run --rm -v "$PWD/artifacts/packages:/packages:ro" fedora:latest bash -c 'dnf install -y --setopt=install_weak_deps=False --setopt=zchunk=False /packages/*.rpm && rpm -V voidstrap && test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap'
+          docker run --rm -v "$PWD/artifacts/packages:/packages:ro" fedora:latest bash -c 'dnf install -y --setopt=install_weak_deps=False --setopt=zchunk=False /packages/*.rpm && rpm -V nullstrap && test "$(readlink -f /usr/bin/nullstrap)" = /usr/lib64/nullstrap/Nullstrap'
       - if: matrix.rid == 'linux-x64'
         run: |
           for attempt in 1 2 3 4 5; do
@@ -1023,8 +1023,8 @@ jobs:
               if [ "$attempt" -eq 5 ]; then exit 1; fi
               sleep $((attempt * 15))
             done
-            rpm -V voidstrap
-            test "$(readlink -f /usr/bin/voidstrap)" = /usr/lib64/voidstrap/Voidstrap
+            rpm -V nullstrap
+            test "$(readlink -f /usr/bin/nullstrap)" = /usr/lib64/nullstrap/Nullstrap
           '
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
@@ -1063,12 +1063,12 @@ jobs:
     timeout-minutes: 30
     env:
       OUT: ${{ github.workspace }}/results
-      APP: /Applications/Voidstrap.app
-      VS: /Users/runner/Library/Application Support/Voidstrap
+      APP: /Applications/Nullstrap.app
+      VS: /Users/runner/Library/Application Support/Nullstrap
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          path: voidstrap
+          path: nullstrap
           submodules: recursive
           persist-credentials: false
 
@@ -1079,7 +1079,7 @@ jobs:
 
       - *image-check-harness
       - name: Check portable images render in controls and brushes
-        working-directory: voidstrap
+        working-directory: nullstrap
         run: |
           mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
           bash "$RUNNER_TEMP/image-check-src/check-macos-images.sh" gallery > "$RUNNER_TEMP/overlay-logs/images.txt" 2>&1 &
@@ -1107,7 +1107,7 @@ jobs:
           test "$(cat "$RUNNER_TEMP/overlay-logs/images-visible.txt")" = true
 
       - name: Check real Roblox avatars and game icons render
-        working-directory: voidstrap
+        working-directory: nullstrap
         run: |
           mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
           rm -f "$RUNNER_TEMP/image-check/ready-roblox"
@@ -1152,22 +1152,22 @@ jobs:
             results/shots/13-roblox-images.png
           retention-days: 1
 
-      - name: Build and copy Voidstrap into Applications
-        working-directory: voidstrap
+      - name: Build and copy Nullstrap into Applications
+        working-directory: nullstrap
         run: |
           mkdir -p "$OUT/shots" "$RUNNER_TEMP/overlay-logs"
-          [ -f "$RUNNER_TEMP/pkg/Voidstrap-osx-arm64.zip" ] || bash build/Packaging/MacOS/package.sh osx-arm64 "" "$RUNNER_TEMP/pkg" > "$RUNNER_TEMP/overlay-logs/build.txt" 2>&1
-          ditto -x -k "$RUNNER_TEMP/pkg/Voidstrap-osx-arm64.zip" "$RUNNER_TEMP/app"
-          sudo ditto "$RUNNER_TEMP/app/Voidstrap.app" "$APP"
+          [ -f "$RUNNER_TEMP/pkg/Nullstrap-osx-arm64.zip" ] || bash build/Packaging/MacOS/package.sh osx-arm64 "" "$RUNNER_TEMP/pkg" > "$RUNNER_TEMP/overlay-logs/build.txt" 2>&1
+          ditto -x -k "$RUNNER_TEMP/pkg/Nullstrap-osx-arm64.zip" "$RUNNER_TEMP/app"
+          sudo ditto "$RUNNER_TEMP/app/Nullstrap.app" "$APP"
           sudo chown -R "$(whoami)" "$APP"
           /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP"
           brew install --quiet cliclick > "$RUNNER_TEMP/overlay-logs/tools.txt" 2>&1
 
-      - name: Install Voidstrap and Roblox
+      - name: Install Nullstrap and Roblox
         run: |
           mkdir -p "$VS/Config"
           printf '{"CheckForUpdates":false}' > "$VS/Config/AppSettings.json"
-          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/install-roblox.txt" 2>&1 &
+          "$APP/Contents/MacOS/Nullstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/install-roblox.txt" 2>&1 &
           for i in $(seq 1 300); do [ -d /Applications/Roblox.app ] && pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           screencapture -x "$OUT/shots/00-runtime-installation.png"
           test -d /Applications/Roblox.app
@@ -1176,12 +1176,12 @@ jobs:
           osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
           sleep 4
           pkill -x RobloxPlayer || true
-          pkill -x Voidstrap || true
+          pkill -x Nullstrap || true
           sleep 2
 
-      - name: Grant Screen Recording to Voidstrap
+      - name: Grant Screen Recording to Nullstrap
         run: |
-          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT OR REPLACE INTO access (service, client, client_type, auth_value, auth_reason, auth_version, indirect_object_identifier, flags, last_modified) VALUES ('kTCCServiceScreenCapture', 'dev.voidstrap.desktop', 0, 2, 4, 1, 'UNUSED', 0, strftime('%s','now'));" || echo "TCC grant failed"
+          sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT OR REPLACE INTO access (service, client, client_type, auth_value, auth_reason, auth_version, indirect_object_identifier, flags, last_modified) VALUES ('kTCCServiceScreenCapture', 'dev.nullstrap.desktop', 0, 2, 4, 1, 'UNUSED', 0, strftime('%s','now'));" || echo "TCC grant failed"
 
       - name: Overlays over a fake game session
         run: |
@@ -1189,7 +1189,7 @@ jobs:
           settings="$VS/Config/AppSettings.json"
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"SessionDockEnabled": True, "OverlaysEnabled": True, "CurrentTimeDisplay": True, "ShowServerDetailsUI": True, "Crosshair": True, "NotificationWindowShow": True, "HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "EnableActivityTracking": True}); json.dump(d, open(p, "w"))' "$settings"
           front() { osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null; }
-          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
+          "$APP/Contents/MacOS/Nullstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/session-stdout.txt" 2>&1 &
           session_pid=$!
           for i in $(seq 1 120); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           sleep 20
@@ -1349,12 +1349,12 @@ jobs:
           osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
           sleep 3
           pkill -x RobloxPlayer || true
-          pkill -x Voidstrap || true
+          pkill -x Nullstrap || true
 
       - name: Overlays tab
         run: |
           click() { cliclick -e 500 "m:$1"; sleep 0.3; cliclick "c:$1"; sleep "${2:-1.5}"; }
-          "$APP/Contents/MacOS/Voidstrap" -settings > "$RUNNER_TEMP/overlay-logs/settings.txt" 2>&1 &
+          "$APP/Contents/MacOS/Nullstrap" -settings > "$RUNNER_TEMP/overlay-logs/settings.txt" 2>&1 &
           sleep 15
           click 150,470 2.5
           click 860,268 2
@@ -1375,7 +1375,7 @@ jobs:
           if let b = best { print("\(Int(b["X"] ?? 0)) \(Int(b["Y"] ?? 0)) \(Int(b["Width"] ?? 0)) \(Int(b["Height"] ?? 0))") }
           SWIFT
           swiftc "$RUNNER_TEMP/main-window.swift" -o "$RUNNER_TEMP/main-window"
-          settings_pid=$(pgrep -x Voidstrap | head -1)
+          settings_pid=$(pgrep -x Nullstrap | head -1)
           before=$("$RUNNER_TEMP/main-window" "$settings_pid")
           echo "settings window before drag $before"
           if [ -n "$before" ]; then
@@ -1393,7 +1393,7 @@ jobs:
             if [ $((wx - ax)) -ge 40 ] && [ $((ay - wy)) -ge 25 ]; then echo true > "$RUNNER_TEMP/overlay-logs/window-drag.txt"; fi
             screencapture -x "$OUT/shots/06b-window-dragged.png"
           fi
-          pkill -x Voidstrap || true
+          pkill -x Nullstrap || true
 
       - name: Virtual display and FPS flag diagnostics
         if: always()
@@ -1412,7 +1412,7 @@ jobs:
           swiftc "$RUNNER_TEMP/displays.swift" -o "$RUNNER_TEMP/displays"
           echo "displays before"
           "$RUNNER_TEMP/displays"
-          helper="$APP/Contents/MacOS/voidstrap-virtualdisplay"
+          helper="$APP/Contents/MacOS/nullstrap-virtualdisplay"
           ls -l "$helper" || true
           codesign -dv "$helper" 2>&1 | head -5 || true
           echo "probe"
@@ -1427,14 +1427,14 @@ jobs:
           screencapture -x "$OUT/shots/14-virtual-display.png" || true
           exec 7>&-
           for i in $(seq 1 12); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
-          helper_pid=$(pgrep -x voidstrap-virtualdisplay | head -1)
+          helper_pid=$(pgrep -x nullstrap-virtualdisplay | head -1)
           if [ -n "$helper_pid" ]; then
             echo "helper still running 6 seconds after stdin closed, sampling"
             sample "$helper_pid" 2 -file "$RUNNER_TEMP/vd-sample.txt" > /dev/null 2>&1 || true
             grep -E "Thread_|^ +[0-9]+ " "$RUNNER_TEMP/vd-sample.txt" | head -60 || true
             kill -TERM "$helper_pid" || true
             for i in $(seq 1 20); do grep -q "^exit" "$RUNNER_TEMP/overlay-logs/vd-err.txt" && break; sleep 0.5; done
-            echo "after SIGTERM running: $(pgrep -x voidstrap-virtualdisplay || echo no)"
+            echo "after SIGTERM running: $(pgrep -x nullstrap-virtualdisplay || echo no)"
           else
             echo "helper stopped on stdin close"
           fi
@@ -1443,7 +1443,7 @@ jobs:
           grep -q '"ready":true' "$RUNNER_TEMP/overlay-logs/vd-out.txt" && echo true > "$RUNNER_TEMP/overlay-logs/virtual-display.txt" || true
           echo "displays after"
           "$RUNNER_TEMP/displays"
-          flags="$VS/Data/VoidstrapMods/ClientSettings/ClientAppSettings.json"
+          flags="$VS/Data/NullstrapMods/ClientSettings/ClientAppSettings.json"
           mkdir -p "$(dirname "$flags")"
           printf '{"DFIntTaskSchedulerTargetFps":"240"}' > "$flags"
           gbs="$HOME/Library/Roblox/GlobalBasicSettings_13.xml"
@@ -1461,7 +1461,7 @@ jobs:
           grep -o '<int name="FramerateCap">[^<]*</int>' "$gbs" || true
           gbs_before=$(md5 -q "$gbs" 2>/dev/null || echo none)
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d["MacVirtualDisplayEnabled"] = True; json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
-          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
+          "$APP/Contents/MacOS/Nullstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/flags-launch.txt" 2>&1 &
           for i in $(seq 1 90); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           sleep 5
           roblox_flags="$(dirname "$(dirname "$(ps -o comm= -p "$(pgrep -x RobloxPlayer | head -1)" 2>/dev/null)")")/MacOS/ClientSettings/ClientAppSettings.json"
@@ -1469,13 +1469,13 @@ jobs:
           cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null || echo "no flags file"
           { cat "$roblox_flags" 2>/dev/null || cat /Applications/Roblox.app/Contents/MacOS/ClientSettings/ClientAppSettings.json 2>/dev/null; } | grep -q '"DFIntTaskSchedulerTargetFps"' && echo true > "$RUNNER_TEMP/overlay-logs/fps-flags.txt" || true
           sleep 8
-          echo "displays with Roblox running through Voidstrap"
+          echo "displays with Roblox running through Nullstrap"
           "$RUNNER_TEMP/displays"
           "$RUNNER_TEMP/displays" | grep -q "refresh 240" && echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display.txt" || true
           osascript -e 'tell application "Roblox" to quit' > /dev/null 2>&1 || true
           sleep 2
           pkill -x RobloxPlayer || true
-          for i in $(seq 1 30); do pgrep -x voidstrap-virtualdisplay > /dev/null || break; sleep 0.5; done
+          for i in $(seq 1 30); do pgrep -x nullstrap-virtualdisplay > /dev/null || break; sleep 0.5; done
           sleep 2
           echo "roblox settings files:"
           find "$HOME/Library" -iname "GlobalBasicSettings*" 2>/dev/null | sed -E 's#/Users/[^/]+#~#' | head -10 || true
@@ -1487,9 +1487,9 @@ jobs:
           echo "displays after Roblox closed"
           "$RUNNER_TEMP/displays"
           "$RUNNER_TEMP/displays" | grep -q "refresh 240" || echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-restored.txt"
-          pkill -x Voidstrap || true
-          grep -h "VirtualDisplay\|virtual display\|in-process\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
-          grep -qh "The virtual display was ready after" ~/Library/Logs/Voidstrap/*.log 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-prestart.txt" || true
+          pkill -x Nullstrap || true
+          grep -h "VirtualDisplay\|virtual display\|in-process\|MacWindowMode\|FastFlag\|ClientSettings\|LaunchPortableRuntime" ~/Library/Logs/Nullstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -20 || true
+          grep -qh "The virtual display was ready after" ~/Library/Logs/Nullstrap/*.log 2>/dev/null && echo true > "$RUNNER_TEMP/overlay-logs/app-virtual-display-prestart.txt" || true
 
       - name: Homepage background overlay over a simulated Roblox home screen
         if: always()
@@ -1522,12 +1522,12 @@ jobs:
           swiftc "$RUNNER_TEMP/fake-home.swift" -o "$RUNNER_TEMP/RobloxPlayer"
           player=/Applications/Roblox.app/Contents/MacOS/RobloxPlayer
           pkill -x RobloxPlayer || true
-          pkill -x Voidstrap || true
+          pkill -x Nullstrap || true
           sleep 2
           sudo mv "$player" "$player.real"
           sudo cp "$RUNNER_TEMP/RobloxPlayer" "$player"
           /usr/bin/python3 -c 'import json, sys; p = sys.argv[1]; d = json.load(open(p)); d.update({"HomepageBackgroundOverlayEnabled": True, "HomepageBackgroundOverlayColor": "#FF2D7DFF", "MacVirtualDisplayEnabled": False}); json.dump(d, open(p, "w"))' "$VS/Config/AppSettings.json"
-          "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/home-launch.txt" 2>&1 &
+          "$APP/Contents/MacOS/Nullstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/home-launch.txt" 2>&1 &
           for i in $(seq 1 60); do pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           echo "fake home running: $(pgrep -x RobloxPlayer || echo no)"
           osascript -e 'tell application "System Events" to set frontmost of (first process whose name is "RobloxPlayer") to true' > /dev/null 2>&1 || true
@@ -1546,9 +1546,9 @@ jobs:
           SWIFT
           swift "$RUNNER_TEMP/home-check.swift" "$OUT/shots/15-homepage-overlay.png" | tee "$RUNNER_TEMP/overlay-logs/home-check.txt"
           tail -1 "$RUNNER_TEMP/overlay-logs/home-check.txt" | grep -q true && echo true > "$RUNNER_TEMP/overlay-logs/homepage-overlay.txt" || true
-          grep -hE 'MacHomepageBackground|HomepageBackground\]|StartMacHomepage' ~/Library/Logs/Voidstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
+          grep -hE 'MacHomepageBackground|HomepageBackground\]|StartMacHomepage' ~/Library/Logs/Nullstrap/*.log 2>/dev/null | sed -E 's#/Users/[^/ ]+#~#g' | tail -15 || true
           pkill -x RobloxPlayer || true
-          pkill -x Voidstrap || true
+          pkill -x Nullstrap || true
           sleep 1
           sudo mv "$player.real" "$player"
 
@@ -1594,16 +1594,16 @@ jobs:
       - name: Show notification and focus diagnostics
         if: always()
         run: |
-          cat ~/Library/Logs/Voidstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock|Built the|LinuxWindowUpdatePump" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
+          cat ~/Library/Logs/Nullstrap/*.log 2>/dev/null | grep -E "MacDockPresence|NotificationWindow|ShowJoinNotification|SessionDockTip|RobloxOverlayAnchor|\[SessionDock\]|PreloadSessionDock|Built the|LinuxWindowUpdatePump" | sed -E 's#/Users/[^/ ]+#~#g' | tail -60 || true
 
       - name: Full in app audit on macOS
         if: always()
         timeout-minutes: 25
         run: |
-          pkill -x Voidstrap || true
-          log_dir="$HOME/Library/Logs/Voidstrap"
+          pkill -x Nullstrap || true
+          log_dir="$HOME/Library/Logs/Nullstrap"
           before=$(ls "$log_dir" 2>/dev/null | wc -l)
-          ( "$APP/Contents/MacOS/Voidstrap" -windowaudit > "$RUNNER_TEMP/overlay-logs/audit-stdout.txt" 2>&1 ) &
+          ( "$APP/Contents/MacOS/Nullstrap" -windowaudit > "$RUNNER_TEMP/overlay-logs/audit-stdout.txt" 2>&1 ) &
           audit_pid=$!
           for i in $(seq 1 1200); do kill -0 "$audit_pid" 2>/dev/null || break; sleep 1; done
           kill "$audit_pid" 2>/dev/null || true
@@ -1623,7 +1623,7 @@ jobs:
           /usr/bin/python3 <<'PY'
           import json, os
           from pathlib import Path
-          paths = list((Path.home() / "Library/Logs/Voidstrap").glob("*.log"))
+          paths = list((Path.home() / "Library/Logs/Nullstrap").glob("*.log"))
           paths += list((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs").glob("*.txt"))
           text = "\n".join(path.read_text(errors="replace") for path in paths)
           result = {
@@ -1632,7 +1632,7 @@ jobs:
               "missing_native_entry": "EntryPointNotFoundException" in text,
               "unhandled_exception": "Unhandled exception" in text,
               "dock_action_exception": "SessionDock::Action" in text and "Exception" in text,
-              "native_crash": any((Path.home() / "Library/Logs/DiagnosticReports").glob("Voidstrap*.ips")),
+              "native_crash": any((Path.home() / "Library/Logs/DiagnosticReports").glob("Nullstrap*.ips")),
               "dock_buttons": (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons-passed").is_file(),
               "dock_panels": json.loads((Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").read_text()) if (Path(os.environ["RUNNER_TEMP"]) / "overlay-logs/buttons.json").is_file() else {},
               "overlay_attached": "Attached the macOS overlay" in text,

@@ -31,7 +31,7 @@
             android:name=".UpdateInstallReceiver"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.voidstrap.android.UPDATE_STATUS" />
+                <action android:name="com.nullstrap.android.UPDATE_STATUS" />
             </intent-filter>
         </receiver>
     </application>

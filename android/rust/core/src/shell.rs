@@ -4,7 +4,7 @@ use std::net::{Ipv4Addr, SocketAddr, TcpStream};
 use std::process::{Child, Command, Stdio};
 use std::time::{Duration, Instant};
 
-pub const PORT_FILE: &str = "/data/local/tmp/voidstrap_helper_port";
+pub const PORT_FILE: &str = "/data/local/tmp/nullstrap_helper_port";
 pub const FLAGS_PATH: &str = "/data/local/tmp/ClientAppSettings.json";
 pub const GAME_FPS_CAP: &str = "debug.graphics.game_default_frame_rate.disabled";
 const NONCE_BYTES: usize = 16;
@@ -16,7 +16,7 @@ const MAX_SCRIPT: usize = 8 * 1024 * 1024;
 const SHELL_UID: u32 = 2000;
 const UPGRADE_WAIT: Duration = Duration::from_millis(8000);
 pub const FAILED: i32 = 2;
-const FLAGS_DELIMITER: &str = "VOIDSTRAP_FLAGS_END";
+const FLAGS_DELIMITER: &str = "NULLSTRAP_FLAGS_END";
 
 pub fn proof(token: &str, nonce: &[u8], side: u8) -> [u8; 32] {
     let mut d = Sha256::new();

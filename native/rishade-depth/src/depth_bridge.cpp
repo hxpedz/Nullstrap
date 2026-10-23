@@ -14,7 +14,7 @@
 State g;
 
 extern "C" __declspec(dllexport) const char* NAME = "RiShade Depth";
-extern "C" __declspec(dllexport) const char* DESCRIPTION = "Supplies estimated depth to ReShade effects in Voidstrap.";
+extern "C" __declspec(dllexport) const char* DESCRIPTION = "Supplies estimated depth to ReShade effects in Nullstrap.";
 
 namespace
 {

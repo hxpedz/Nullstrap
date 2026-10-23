@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:accessibilityHeading="true"
         android:text="@string/mods_title"
-        android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle"
+        android:textAppearance="@style/TextAppearance.Nullstrap.PageTitle"
         tools:targetApi="p" />
 
     <TextView
@@ -23,11 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="@string/mods_subtitle"
-        android:textAppearance="@style/TextAppearance.Voidstrap.PageSubtitle" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.PageSubtitle" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/mods_status"
-        style="@style/Widget.Voidstrap.Card"
+        style="@style/Widget.Nullstrap.Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -66,14 +66,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/mods_apply_title"
-                        android:textAppearance="@style/TextAppearance.Voidstrap.CardTitle" />
+                        android:textAppearance="@style/TextAppearance.Nullstrap.CardTitle" />
 
                     <TextView
                         android:id="@+id/mods_status_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+                        android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
                 </LinearLayout>
 
                 <com.google.android.material.materialswitch.MaterialSwitch
@@ -98,7 +98,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/mods_root"
-                    style="@style/Widget.Voidstrap.Button.Subtle"
+                    style="@style/Widget.Nullstrap.Button.Subtle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mods_use_root"
@@ -106,7 +106,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/mods_remove"
-                    style="@style/Widget.Voidstrap.Button.Subtle"
+                    style="@style/Widget.Nullstrap.Button.Subtle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mods_restore"
@@ -114,7 +114,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/mods_gamebanana"
-                    style="@style/Widget.Voidstrap.Button.Subtle"
+                    style="@style/Widget.Nullstrap.Button.Subtle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mods_find_more"

@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Voidstrap"
+rootProject.name = "Nullstrap"
 include(":app")

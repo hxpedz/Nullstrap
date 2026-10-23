@@ -1,0 +1,74 @@
+using System;
+using System.Windows;
+using Nullstrap.UI.Elements.Dialogs;
+using Nullstrap.UI.ViewModels.Settings;
+using Wpf.Ui.Controls;
+
+namespace Nullstrap.UI.Elements.Settings.Pages;
+
+public partial class NewsPage : UiPage{
+	private readonly NewsViewModel _viewModel = new NewsViewModel();
+	private Window? _ownerWindow;
+
+	public NewsPage()
+	{
+		base.DataContext = _viewModel;
+		InitializeComponent();
+		Loaded += OnPageLoaded;
+		Unloaded += OnPageUnloaded;
+	}
+
+	private void OnPageLoaded(object sender, RoutedEventArgs e)
+	{
+		Window? owner = Window.GetWindow(this);
+		if (!ReferenceEquals(_ownerWindow, owner))
+		{
+			if (_ownerWindow != null)
+			{
+				_ownerWindow.Closed -= OnOwnerWindowClosed;
+			}
+			_ownerWindow = owner;
+			if (_ownerWindow != null)
+			{
+				_ownerWindow.Closed += OnOwnerWindowClosed;
+			}
+		}
+	}
+
+	private void OnPageUnloaded(object sender, RoutedEventArgs e)
+	{
+		if (_ownerWindow != null)
+		{
+			_ownerWindow.Closed -= OnOwnerWindowClosed;
+			_ownerWindow = null;
+		}
+	}
+
+	private void OnOwnerWindowClosed(object? sender, EventArgs e)
+	{
+		if (_ownerWindow != null)
+		{
+			_ownerWindow.Closed -= OnOwnerWindowClosed;
+			_ownerWindow = null;
+		}
+		Loaded -= OnPageLoaded;
+		Unloaded -= OnPageUnloaded;
+		_viewModel.Dispose();
+	}
+
+	private void OpenItem_Click(object sender, RoutedEventArgs e)
+	{
+		try
+		{
+			if (sender is FrameworkElement { DataContext: NewsItem dataContext })
+			{
+				if (Window.GetWindow(this) is MainWindow window)
+					window.ShowNewsItem(dataContext);
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("NewsPage::OpenItem", ex);
+		}
+	}
+}

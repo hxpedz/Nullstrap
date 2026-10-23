@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   packages:
-    if: vars.VOIDSTRAP_RELEASE_LINUX == 'true'
+    if: vars.NULLSTRAP_RELEASE_LINUX == 'true'
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
@@ -30,7 +30,7 @@ jobs:
       - name: Validate release version
         shell: bash
         run: |
-          package_version="$(sed -n 's:^[[:space:]]*<VoidstrapVersion>\(.*\)</VoidstrapVersion>[[:space:]]*$:\1:p' Directory.Build.props | head -n 1)"
+          package_version="$(sed -n 's:^[[:space:]]*<NullstrapVersion>\(.*\)</NullstrapVersion>[[:space:]]*$:\1:p' Directory.Build.props | head -n 1)"
           release_version="${RELEASE_TAG#v}"
           test "$package_version" = "$release_version"
       - name: Build the AppImage sysroots
@@ -43,7 +43,7 @@ jobs:
         env:
           APPIMAGETOOL: ${{ runner.temp }}/appimagetool
           APPIMAGE_EXTRACT_AND_RUN: "1"
-          VOIDSTRAP_APPIMAGE_SYSROOT_DIR: ${{ runner.temp }}/appimage-sysroots
+          NULLSTRAP_APPIMAGE_SYSROOT_DIR: ${{ runner.temp }}/appimage-sysroots
         run: ./publish-all.ps1 -Only linux-x64,linux-arm64,linux-musl-x64,linux-musl-arm64 -LinuxPackages -SkipSolutionBuild -Parallel
       - name: Upload release packages
         env:

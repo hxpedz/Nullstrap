@@ -216,13 +216,13 @@ fn removed(line: &str) -> Option<&str> {
 }
 
 fn rpc(line: &str) -> Option<&str> {
-    let v = line.find("[VoidstrapRPC] ");
+    let v = line.find("[NullstrapRPC] ");
     let b = line.find("[BloxstrapRPC] ");
     let at = match (v, b) {
         (Some(x), Some(y)) => x.min(y),
         (x, y) => x.or(y)?,
     };
-    Some(until_terminator(&line[at + "[VoidstrapRPC] ".len()..]))
+    Some(until_terminator(&line[at + "[NullstrapRPC] ".len()..]))
 }
 
 fn opt_string(v: Option<&Value>) -> String {
@@ -329,7 +329,7 @@ impl Watcher {
                         self.reserved_marker = true;
                     }
                 }
-            } else if line.contains("[VoidstrapRPC]") || line.contains("[BloxstrapRPC]") {
+            } else if line.contains("[NullstrapRPC]") || line.contains("[BloxstrapRPC]") {
                 if let Some(body) = rpc(line) {
                     if now - self.last_rpc > 1000 {
                         let parsed = serde_json::Deserializer::from_str(body).into_iter::<Value>().next();

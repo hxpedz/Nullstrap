@@ -71,7 +71,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/det_pin"
-            style="@style/Widget.Voidstrap.Button.Standard"
+            style="@style/Widget.Nullstrap.Button.Standard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -79,7 +79,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/det_remove"
-            style="@style/Widget.Voidstrap.Button.Standard"
+            style="@style/Widget.Nullstrap.Button.Standard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -88,7 +88,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/det_more"
-            style="@style/Widget.Voidstrap.Button.Standard"
+            style="@style/Widget.Nullstrap.Button.Standard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -241,7 +241,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Caption"
+                android:textAppearance="@style/TextAppearance.Nullstrap.Caption"
                 android:visibility="gone" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

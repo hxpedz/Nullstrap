@@ -11,14 +11,14 @@ FONT_URL = "https://github.com/mozilla/twemoji-colr/releases/download/v0.7.0/Twe
 FONT_SHA256 = "6d90152ee0d29e82fe2a87793af5aa4b7ad13e6538360889e141e81ed299ee8e"
 LIST_URL = "https://unicode.org/Public/emoji/14.0/emoji-test.txt"
 LIST_SHA256 = "ec474be073670aa7ce6dc1de9025b9fbb9b875fc63df815c254a5d1686fc6109"
-FAMILY = "Voidstrap Emoji"
-POSTSCRIPT = "VoidstrapEmoji-Regular"
+FAMILY = "Nullstrap Emoji"
+POSTSCRIPT = "NullstrapEmoji-Regular"
 PAD_CODE_POINT = 0xE000
 FIRST_CODE_POINT = 0xE001
 LAST_CODE_POINT = 0xF8FF
-PAD_GLYPH = "voidstrap.pad"
+PAD_GLYPH = "nullstrap.pad"
 SPACE_CODE_POINT = 0x20
-SPACE_GLYPH = "voidstrap.space"
+SPACE_GLYPH = "nullstrap.space"
 
 
 def download(url, expected):
@@ -111,9 +111,9 @@ def main():
         elif record.nameID == 3:
             record.string = POSTSCRIPT + " derived from Twemoji Mozilla 0.7.0"
 
-    font.save(str(output / "VoidstrapEmoji.ttf"))
+    font.save(str(output / "NullstrapEmoji.ttf"))
     source.unlink()
-    (output / "VoidstrapEmoji.map").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (output / "NullstrapEmoji.map").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"Mapped {len(lines)} emoji sequences to {len(code_point_by_glyph)} glyphs in {output}")
 
 

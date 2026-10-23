@@ -12,11 +12,11 @@ use std::sync::{Arc, Mutex, OnceLock};
 use std::thread;
 use std::time::{Duration, Instant};
 
-const PORT_FILE: &str = "/data/local/tmp/voidstrap_helper_port";
-const HELPER_CLASS: &str = "com.voidstrap.android.HelperServer";
+const PORT_FILE: &str = "/data/local/tmp/nullstrap_helper_port";
+const HELPER_CLASS: &str = "com.nullstrap.android.HelperServer";
 const NONCE_BYTES: usize = 16;
 const PROOF_BYTES: usize = 32;
-const VERSION: i32 = parse(env!("VOIDSTRAP_VERSION_CODE"));
+const VERSION: i32 = parse(env!("NULLSTRAP_VERSION_CODE"));
 const PING: i32 = -1;
 const STOP: i32 = -2;
 const STALE: i32 = -3;
@@ -34,13 +34,13 @@ const STREAM_MARKERS: [&str; 12] = [
     "Time to disconnect replication data",
     "leaveUGCGameInternal",
     "doTeleport: joinScriptUrl",
-    "[VoidstrapRPC]",
+    "[NullstrapRPC]",
     "[BloxstrapRPC]",
     "ExpChat/mountClientApp",
     "SocialCounterpartyManager",
     "setStage: (stage:",
 ];
-const STREAM_REGEX: &str = "Joining game|game_join_loadtime|UDMUX Address|serverId:|Time to disconnect|leaveUGCGameInternal|doTeleport|VoidstrapRPC|BloxstrapRPC|ExpChat|SocialCounterpartyManager|setStage";
+const STREAM_REGEX: &str = "Joining game|game_join_loadtime|UDMUX Address|serverId:|Time to disconnect|leaveUGCGameInternal|doTeleport|NullstrapRPC|BloxstrapRPC|ExpChat|SocialCounterpartyManager|setStage";
 const ALIVE_POLL: Duration = Duration::from_secs(3);
 const KEEPALIVE_TICKS: u32 = 10;
 const LINE_LIMIT: usize = 8000;
@@ -94,10 +94,10 @@ fn main() {
         cleanup,
     });
     let Some(server) = bind() else {
-        println!("The Voidstrap helper could not listen");
+        println!("The Nullstrap helper could not listen");
         return;
     };
-    println!("The Voidstrap helper started");
+    println!("The Nullstrap helper started");
     let port = server.local_addr().map(|a| a.port()).unwrap_or(0);
     thread::spawn(move || watch(port));
     for client in server.incoming() {

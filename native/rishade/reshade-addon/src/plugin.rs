@@ -54,7 +54,7 @@ pub struct ExportedString(*const c_char);
 unsafe impl Sync for ExportedString {}
 
 static ADDON_NAME: &[u8] = b"RiShadeRuntime\0";
-static ADDON_DESCRIPTION: &[u8] = b"In-process RiShade runtime for Voidstrap\0";
+static ADDON_DESCRIPTION: &[u8] = b"In-process RiShade runtime for Nullstrap\0";
 
 #[unsafe(no_mangle)]
 pub static NAME: ExportedString = ExportedString(ADDON_NAME.as_ptr().cast());
@@ -1013,7 +1013,7 @@ mod tests {
     #[test]
     fn runtime_loader_only_accepts_the_extensions_rishade_runtime_path() {
         assert!(is_allowed_runtime_path(std::path::Path::new(
-            r"C:\Voidstrap\Extensions\RiShade\dxgi.dll"
+            r"C:\Nullstrap\Extensions\RiShade\dxgi.dll"
         )));
         assert!(!is_allowed_runtime_path(std::path::Path::new(
             r"C:\Roblox\Versions\version-123\dxgi.dll"

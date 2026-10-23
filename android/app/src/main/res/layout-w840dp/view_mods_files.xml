@@ -6,7 +6,7 @@
     android:paddingStart="@dimen/vs_page_inset"
     android:paddingEnd="@dimen/vs_page_inset">
 
-    <com.voidstrap.android.ListPane
+    <com.nullstrap.android.ListPane
         android:id="@+id/files"
         android:layout_width="0dp"
         android:layout_height="match_parent"

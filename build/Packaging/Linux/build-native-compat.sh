@@ -12,11 +12,11 @@ case "$RID" in
 esac
 
 if [ "$ARCH" = "$(uname -m)" ]; then
-  COMPILER="${VOIDSTRAP_EDITOR_COMPILER:-cc}"
+  COMPILER="${NULLSTRAP_EDITOR_COMPILER:-cc}"
 elif [ "$ARCH" = "aarch64" ]; then
-  COMPILER="${VOIDSTRAP_EDITOR_COMPILER:-aarch64-linux-gnu-gcc}"
+  COMPILER="${NULLSTRAP_EDITOR_COMPILER:-aarch64-linux-gnu-gcc}"
 else
-  COMPILER="${VOIDSTRAP_EDITOR_COMPILER:-x86_64-linux-gnu-gcc}"
+  COMPILER="${NULLSTRAP_EDITOR_COMPILER:-x86_64-linux-gnu-gcc}"
 fi
 command -v "$COMPILER" >/dev/null 2>&1 || { echo "The $ARCH C compiler is unavailable" >&2; exit 1; }
 mkdir -p "$(dirname "$OUTPUT")"

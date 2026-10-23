@@ -24,7 +24,7 @@ pub unsafe fn on_load(vm: *mut JavaVM) {
         let (Some(find), Some(global), Some(method), Some(clear)) = (f.FindClass, f.NewGlobalRef, f.GetStaticMethodID, f.ExceptionClear) else {
             return;
         };
-        let cls = find(env, c"com/voidstrap/android/Http".as_ptr());
+        let cls = find(env, c"com/nullstrap/android/Http".as_ptr());
         if cls.is_null() {
             clear(env);
             return;

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>Nullstrap.Platform.MacOS</RootNamespace>
+		<AssemblyName>Nullstrap.Platform.MacOS</AssemblyName>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Nullstrap.Core\Nullstrap.Core.csproj" />
+		<ProjectReference Include="..\Nullstrap.Platform.Abstractions\Nullstrap.Platform.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

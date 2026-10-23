@@ -13,7 +13,7 @@ case "$RID" in
 esac
 
 if [ -z "$VERSION" ]; then
-  VERSION="$(sed -n 's:^[[:space:]]*<VoidstrapVersion>\(.*\)</VoidstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
+  VERSION="$(sed -n 's:^[[:space:]]*<NullstrapVersion>\(.*\)</NullstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
 fi
 
 if [[ ! "$VERSION" =~ ^[0-9]+([.][0-9]+){1,3}$ ]]; then
@@ -23,16 +23,16 @@ fi
 
 mkdir -p "$OUTPUT"
 OUTPUT="$(cd "$OUTPUT" && pwd)"
-DMG_TARGET="$OUTPUT/Voidstrap-$RID.dmg"
-ARCHIVE_TARGET="$OUTPUT/Voidstrap-$RID.zip"
-TARBALL_TARGET="$OUTPUT/Voidstrap-$RID.tar.gz"
+DMG_TARGET="$OUTPUT/Nullstrap-$RID.dmg"
+ARCHIVE_TARGET="$OUTPUT/Nullstrap-$RID.zip"
+TARBALL_TARGET="$OUTPUT/Nullstrap-$RID.tar.gz"
 
 if [ -e "$DMG_TARGET" ] || [ -e "$ARCHIVE_TARGET" ] || [ -e "$TARBALL_TARGET" ]; then
   echo "The requested output already exists"
   exit 1
 fi
 
-LOCK="$OUTPUT/.voidstrap-macos-$RID.lock"
+LOCK="$OUTPUT/.nullstrap-macos-$RID.lock"
 if ! mkdir "$LOCK" 2>/dev/null; then
   echo "Another package operation is already running"
   exit 1
@@ -47,12 +47,12 @@ cleanup() {
 }
 
 trap cleanup EXIT
-STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-macos.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/nullstrap-macos.XXXXXX")"
 PUBLISH="$STAGE/publish"
-APPLICATION="$STAGE/Voidstrap.app"
-DMG="$STAGE/Voidstrap-$RID.dmg"
-ARCHIVE="$STAGE/Voidstrap-$RID.zip"
-ISO="$STAGE/Voidstrap-$RID.iso"
+APPLICATION="$STAGE/Nullstrap.app"
+DMG="$STAGE/Nullstrap-$RID.dmg"
+ARCHIVE="$STAGE/Nullstrap-$RID.zip"
+ISO="$STAGE/Nullstrap-$RID.iso"
 
 commit_artifact() {
   mv -n "$1" "$2"
@@ -64,10 +64,10 @@ commit_artifact() {
 
 mkdir -p "$PUBLISH"
 if [ -n "$PUBLISHED_EXECUTABLE" ]; then
-  [ -f "$PUBLISHED_EXECUTABLE" ] && [ -s "$PUBLISHED_EXECUTABLE" ] || { echo "The published Voidstrap executable is unavailable"; exit 1; }
-  cp "$PUBLISHED_EXECUTABLE" "$PUBLISH/Voidstrap"
+  [ -f "$PUBLISHED_EXECUTABLE" ] && [ -s "$PUBLISHED_EXECUTABLE" ] || { echo "The published Nullstrap executable is unavailable"; exit 1; }
+  cp "$PUBLISHED_EXECUTABLE" "$PUBLISH/Nullstrap"
 else
-  dotnet publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:VoidstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
+  dotnet publish "$ROOT/src/Nullstrap.Cross/Nullstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:NullstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
 fi
 mkdir -p "$APPLICATION/Contents/MacOS" "$APPLICATION/Contents/Resources"
 cp -R "$PUBLISH/." "$APPLICATION/Contents/MacOS/"
@@ -78,15 +78,15 @@ esac
 if [ "$(uname -s)" = "Darwin" ]; then
   rustup target add "$RUST_TARGET"
   CARGO_TARGET_DIR="$STAGE/rust" RUSTFLAGS="--remap-path-prefix=$ROOT=/src --remap-path-prefix=${CARGO_HOME:-$HOME/.cargo}=/cargo" cargo build --manifest-path "$ROOT/src/VirtualDisplay/Cargo.toml" --locked --release --target "$RUST_TARGET"
-  cp "$STAGE/rust/$RUST_TARGET/release/voidstrap-virtualdisplay" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
-  chmod 755 "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
-elif [ -s "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/voidstrap-virtualdisplay}" ]; then
-  if [ -z "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-}" ]; then
+  cp "$STAGE/rust/$RUST_TARGET/release/nullstrap-virtualdisplay" "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
+  chmod 755 "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
+elif [ -s "${NULLSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/nullstrap-virtualdisplay}" ]; then
+  if [ -z "${NULLSTRAP_VIRTUALDISPLAY_BINARY:-}" ]; then
     (cd "$ROOT" && sha256sum -c external/virtualdisplay/SOURCES.sha256)
     (cd "$ROOT/external/virtualdisplay/$RID" && sha256sum -c SHA256SUMS)
   fi
-  cp "${VOIDSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/voidstrap-virtualdisplay}" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
-  chmod 755 "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+  cp "${NULLSTRAP_VIRTUALDISPLAY_BINARY:-$ROOT/external/virtualdisplay/$RID/nullstrap-virtualdisplay}" "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
+  chmod 755 "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
 else
   echo "A macOS virtual display binary is required for this package"
   exit 1
@@ -96,7 +96,7 @@ cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar
 chmod 755 "$APPLICATION/Contents/Resources/licenses"
 chmod 644 "$APPLICATION/Contents/Resources/licenses/"*
 cp "$ROOT/src/VirtualDisplay/THIRD-PARTY-NOTICES.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt"
-cp "$ROOT/LICENSE.VOIDSTRAP" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
+cp "$ROOT/LICENSE.NULLSTRAP" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
 chmod 644 "$APPLICATION/Contents/Resources/VirtualDisplay-Notices.txt" "$APPLICATION/Contents/Resources/VirtualDisplay-License.txt"
 NOTICES="$APPLICATION/Contents/MacOS/LibreWPF/Notices"
 if [ -d "$NOTICES" ]; then
@@ -108,9 +108,9 @@ if [ -d "$NOTICES" ]; then
   done < <(find "$NOTICES" -depth -type d)
 fi
 cp "$ROOT/build/Packaging/MacOS/Info.plist" "$APPLICATION/Contents/Info.plist"
-cp "$ROOT/build/Packaging/MacOS/Voidstrap.icns" "$APPLICATION/Contents/Resources/Voidstrap.icns"
-cp "$ROOT/src/Voidstrap.App/Voidstrap.png" "$APPLICATION/Contents/Resources/Voidstrap.png"
-chmod 755 "$APPLICATION/Contents/MacOS/Voidstrap" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+cp "$ROOT/build/Packaging/MacOS/Nullstrap.icns" "$APPLICATION/Contents/Resources/Nullstrap.icns"
+cp "$ROOT/src/Nullstrap.App/Nullstrap.png" "$APPLICATION/Contents/Resources/Nullstrap.png"
+chmod 755 "$APPLICATION/Contents/MacOS/Nullstrap" "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
 
 if [ "$(uname -s)" != "Darwin" ]; then
   if [ -n "${MACOS_SIGN_IDENTITY:-}" ] || [ -n "${MACOS_NOTARY_PROFILE:-}" ]; then
@@ -138,7 +138,7 @@ if [ "$(uname -s)" != "Darwin" ]; then
   SIGNER_RELEASE="apple-codesign-0.29.0-$SIGNER_TARGET"
   SIGNER_EXTENSION=tar.gz
   case "$SIGNER_TARGET" in *windows*) SIGNER_EXTENSION=zip ;; esac
-  SIGNER_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/voidstrap/rcodesign"
+  SIGNER_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/nullstrap/rcodesign"
   SIGNER_ARCHIVE="$SIGNER_CACHE/$SIGNER_RELEASE.$SIGNER_EXTENSION"
   mkdir -p "$SIGNER_CACHE"
   if command -v flock >/dev/null 2>&1; then
@@ -167,14 +167,14 @@ if [ "$(uname -s)" != "Darwin" ]; then
   test -s "$APPLICATION/Contents/_CodeSignature/CodeResources"
   if [ "$(uname -s)" = "Linux" ]; then
     command -v genisoimage >/dev/null 2>&1 || { echo "genisoimage is required to create a macOS disk image on Linux"; exit 1; }
-    genisoimage -D -J -V Voidstrap -no-pad -r -graft-points -o "$ISO" "Voidstrap.app=$APPLICATION"
+    genisoimage -D -J -V Nullstrap -no-pad -r -graft-points -o "$ISO" "Nullstrap.app=$APPLICATION"
     mv "$ISO" "$DMG"
     [ -s "$DMG" ] || { echo "The macOS disk image is empty"; exit 1; }
     commit_artifact "$DMG" "$DMG_TARGET"
   fi
-  TARBALL="$STAGE/Voidstrap-$RID.tar"
-  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap.app/Contents/MacOS/Voidstrap" --exclude="Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay" -C "$STAGE" -cf "$TARBALL" Voidstrap.app
-  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Voidstrap.app/Contents/MacOS/Voidstrap Voidstrap.app/Contents/MacOS/voidstrap-virtualdisplay
+  TARBALL="$STAGE/Nullstrap-$RID.tar"
+  tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Nullstrap.app/Contents/MacOS/Nullstrap" --exclude="Nullstrap.app/Contents/MacOS/nullstrap-virtualdisplay" -C "$STAGE" -cf "$TARBALL" Nullstrap.app
+  tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$TARBALL" Nullstrap.app/Contents/MacOS/Nullstrap Nullstrap.app/Contents/MacOS/nullstrap-virtualdisplay
   gzip -n -f "$TARBALL"
   commit_artifact "$TARBALL.gz" "$TARBALL_TARGET"
   exit 0
@@ -184,10 +184,10 @@ fi
 /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $VERSION" "$APPLICATION/Contents/Info.plist"
 
 if [ -n "${MACOS_SIGN_IDENTITY:-}" ]; then
-  codesign --force --options runtime --sign "$MACOS_SIGN_IDENTITY" "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+  codesign --force --options runtime --sign "$MACOS_SIGN_IDENTITY" "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
   codesign --force --deep --options runtime --entitlements "$ROOT/build/Packaging/MacOS/Entitlements.plist" --sign "$MACOS_SIGN_IDENTITY" "$APPLICATION"
 else
-  codesign --force --sign - "$APPLICATION/Contents/MacOS/voidstrap-virtualdisplay"
+  codesign --force --sign - "$APPLICATION/Contents/MacOS/nullstrap-virtualdisplay"
   codesign --force --deep --entitlements "$ROOT/build/Packaging/MacOS/Entitlements.plist" --sign - "$APPLICATION"
 fi
 
@@ -204,7 +204,7 @@ fi
 create_disk_image() {
   local attempt
   for attempt in 1 2 3 4 5 6; do
-    if hdiutil create -volname Voidstrap -srcfolder "$APPLICATION" -ov -format UDZO "$DMG"; then
+    if hdiutil create -volname Nullstrap -srcfolder "$APPLICATION" -ov -format UDZO "$DMG"; then
       return 0
     fi
     echo "hdiutil create failed on attempt $attempt, retrying"

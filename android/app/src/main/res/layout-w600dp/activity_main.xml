@@ -32,7 +32,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/title_library"
-            style="@style/Widget.Voidstrap.Button.Subtle"
+            style="@style/Widget.Nullstrap.Button.Subtle"
             tools:ignore="InconsistentLayout"
             android:layout_width="wrap_content"
             android:layout_height="32dp"

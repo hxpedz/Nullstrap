@@ -18,14 +18,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 
     <TextView
         android:id="@+id/detail_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary" />
 
     <LinearLayout
         android:id="@+id/detail_submitter"
@@ -42,7 +42,7 @@
             android:background="@drawable/vs_icon_tile"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop"
-            app:shapeAppearance="@style/Shape.Voidstrap.Card" />
+            app:shapeAppearance="@style/Shape.Nullstrap.Card" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -55,18 +55,18 @@
                 android:id="@+id/detail_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Body" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Body" />
 
             <TextView
                 android:id="@+id/detail_author_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/detail_page"
-            style="@style/Widget.Voidstrap.Button.Subtle"
+            style="@style/Widget.Nullstrap.Button.Subtle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mods_packs_page"
@@ -78,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/mods_packs_download"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Section" />
 
     <LinearLayout
         android:id="@+id/detail_files"
@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/detail_install"
@@ -106,14 +106,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/mods_packs_description"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Section" />
 
     <TextView
         android:id="@+id/detail_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Body"
+        android:textAppearance="@style/TextAppearance.Nullstrap.Body"
         android:textIsSelectable="true" />
 
     <TextView
@@ -122,14 +122,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/mods_packs_license"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Section" />
 
     <TextView
         android:id="@+id/detail_license"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 
     <LinearLayout
         android:id="@+id/detail_sections"

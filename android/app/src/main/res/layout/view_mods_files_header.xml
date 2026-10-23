@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/mods_info"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/import_pack"
-            style="@style/Widget.Voidstrap.Button.Subtle"
+            style="@style/Widget.Nullstrap.Button.Subtle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mods_import_pack"
@@ -35,7 +35,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/new_folder"
-            style="@style/Widget.Voidstrap.Button.Subtle"
+            style="@style/Widget.Nullstrap.Button.Subtle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mods_new_folder"
@@ -82,7 +82,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/up"
-            style="@style/Widget.Voidstrap.IconButton"
+            style="@style/Widget.Nullstrap.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/mods_up"
@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:ellipsize="start"
             android:maxLines="1"
-            android:textAppearance="@style/TextAppearance.Voidstrap.Section" />
+            android:textAppearance="@style/TextAppearance.Nullstrap.Section" />
     </LinearLayout>
 
     <TextView
@@ -103,5 +103,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+        android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 </LinearLayout>

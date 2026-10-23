@@ -27,7 +27,7 @@
             android:importantForAccessibility="no"
             android:scaleType="centerCrop"
             android:visibility="gone"
-            app:shapeAppearance="@style/Shape.Voidstrap.Card" />
+            app:shapeAppearance="@style/Shape.Nullstrap.Card" />
 
         <ImageView
             android:id="@+id/row_icon"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.Voidstrap.RowTitle" />
+            android:textAppearance="@style/TextAppearance.Nullstrap.RowTitle" />
 
         <TextView
             android:id="@+id/row_detail"
@@ -60,7 +60,7 @@
             android:layout_marginTop="2dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.Voidstrap.RowSummary" />
+            android:textAppearance="@style/TextAppearance.Nullstrap.RowSummary" />
     </LinearLayout>
 
     <TextView
@@ -73,12 +73,12 @@
         android:paddingTop="2dp"
         android:paddingEnd="8dp"
         android:paddingBottom="2dp"
-        android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary"
+        android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary"
         android:visibility="gone" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/row_more"
-        style="@style/Widget.Voidstrap.IconButton"
+        style="@style/Widget.Nullstrap.IconButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/common_more"

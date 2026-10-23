@@ -1,26 +1,26 @@
 ﻿<Project>
 
 	<PropertyGroup>
-		<VoidstrapVersion>1.1.3.8</VoidstrapVersion>
+		<NullstrapVersion>1.1.3.8</NullstrapVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != ''">
-		<BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/$(MSBuildProjectName)/</BaseOutputPath>
-		<BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
+	<PropertyGroup Condition="'$(NullstrapLinuxPackagingRoot)' != ''">
+		<BaseOutputPath>$(NullstrapLinuxPackagingRoot)bin/$(MSBuildProjectName)/</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(NullstrapLinuxPackagingRoot)obj/$(MSBuildProjectName)/</BaseIntermediateOutputPath>
 		<DefaultItemExcludes>$(DefaultItemExcludes);bin/**;bin-*/**;bin-cross/**;obj/**;obj-*/**</DefaultItemExcludes>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(VoidstrapLinuxPackagingRoot)' != '' And $(MSBuildProjectName.StartsWith('Voidstrap.Cross'))">
-		<BaseOutputPath>$(VoidstrapLinuxPackagingRoot)bin/Voidstrap.Cross/</BaseOutputPath>
-		<BaseIntermediateOutputPath>$(VoidstrapLinuxPackagingRoot)obj/Voidstrap.Cross/</BaseIntermediateOutputPath>
+	<PropertyGroup Condition="'$(NullstrapLinuxPackagingRoot)' != '' And $(MSBuildProjectName.StartsWith('Nullstrap.Cross'))">
+		<BaseOutputPath>$(NullstrapLinuxPackagingRoot)bin/Nullstrap.Cross/</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(NullstrapLinuxPackagingRoot)obj/Nullstrap.Cross/</BaseIntermediateOutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Version Condition="'$(Version)' == ''">$(VoidstrapVersion)</Version>
+		<Version Condition="'$(Version)' == ''">$(NullstrapVersion)</Version>
 		<FileVersion>$(Version)</FileVersion>
 		<AssemblyVersion>$(Version)</AssemblyVersion>
 		<InformationalVersion>$(Version)</InformationalVersion>

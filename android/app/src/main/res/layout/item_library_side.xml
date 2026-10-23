@@ -19,7 +19,7 @@
         android:layout_height="18dp"
         android:importantForAccessibility="no"
         android:scaleType="centerCrop"
-        app:shapeAppearance="@style/Shape.Voidstrap.Control" />
+        app:shapeAppearance="@style/Shape.Nullstrap.Control" />
 
     <TextView
         android:id="@+id/side_name"

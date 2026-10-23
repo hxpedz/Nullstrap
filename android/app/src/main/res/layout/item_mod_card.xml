@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/Widget.Voidstrap.Card"
+    style="@style/Widget.Nullstrap.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
@@ -21,7 +21,7 @@
             android:background="@drawable/vs_icon_tile"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop"
-            app:shapeAppearance="@style/Shape.Voidstrap.Card" />
+            app:shapeAppearance="@style/Shape.Nullstrap.Card" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textAppearance="@style/TextAppearance.Voidstrap.CardTitle" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.CardTitle" />
 
             <TextView
                 android:id="@+id/card_summary"
@@ -45,7 +45,7 @@
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 
             <TextView
                 android:id="@+id/card_meta"
@@ -54,7 +54,7 @@
                 android:layout_marginTop="4dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -65,7 +65,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/card_page"
-                    style="@style/Widget.Voidstrap.Button.Subtle"
+                    style="@style/Widget.Nullstrap.Button.Subtle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mods_packs_page" />

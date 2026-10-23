@@ -7,11 +7,11 @@ VERSION="${2:-}"
 FORMAT="${3:?A package format is required}"
 OUTPUT="${4:?An output directory is required}"
 PUBLISHED_EXECUTABLE="${5:-}"
-APPLICATION_ID="io.github.KloBraticc.Voidstrap"
-DESKTOP_FILE="$ROOT/build/Packaging/Linux/voidstrap.desktop"
-ICON_FILE="$ROOT/src/Voidstrap.App/Voidstrap.png"
+APPLICATION_ID="io.github.hxpedz.Nullstrap"
+DESKTOP_FILE="$ROOT/build/Packaging/Linux/nullstrap.desktop"
+ICON_FILE="$ROOT/src/Nullstrap.App/Nullstrap.png"
 METAINFO_FILE="$ROOT/build/Packaging/Linux/$APPLICATION_ID.metainfo.xml"
-LICENSE_FILE="$ROOT/LICENSE.VOIDSTRAP"
+LICENSE_FILE="$ROOT/LICENSE.NULLSTRAP"
 DOTNET_COMMAND="${DOTNET_ROOT:-}/dotnet"
 
 if [ ! -x "$DOTNET_COMMAND" ]; then
@@ -26,7 +26,7 @@ if [ -z "$DOTNET_COMMAND" ] && [ -z "$PUBLISHED_EXECUTABLE" ]; then
 fi
 
 if [ -z "$VERSION" ]; then
-  VERSION="$(sed -n 's:^[[:space:]]*<VoidstrapVersion>\(.*\)</VoidstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
+  VERSION="$(sed -n 's:^[[:space:]]*<NullstrapVersion>\(.*\)</NullstrapVersion>[[:space:]]*$:\1:p' "$ROOT/Directory.Build.props" | head -n 1)"
 fi
 
 case "$RID" in
@@ -68,10 +68,10 @@ fi
 mkdir -p "$OUTPUT"
 OUTPUT="$(cd "$OUTPUT" && pwd)"
 case "$FORMAT" in
-  deb) FINAL_TARGET="$OUTPUT/Voidstrap_${VERSION}_${DEB_ARCH}.deb" ;;
-  rpm) FINAL_TARGET="$OUTPUT/Voidstrap_${VERSION}_${RPM_ARCH}.rpm" ;;
-  appimage) FINAL_TARGET="$OUTPUT/Voidstrap_${VERSION}_${APPIMAGE_ARCH}.AppImage" ;;
-  tar) FINAL_TARGET="$OUTPUT/Voidstrap_${VERSION}_${RID}.tar.gz" ;;
+  deb) FINAL_TARGET="$OUTPUT/Nullstrap_${VERSION}_${DEB_ARCH}.deb" ;;
+  rpm) FINAL_TARGET="$OUTPUT/Nullstrap_${VERSION}_${RPM_ARCH}.rpm" ;;
+  appimage) FINAL_TARGET="$OUTPUT/Nullstrap_${VERSION}_${APPIMAGE_ARCH}.AppImage" ;;
+  tar) FINAL_TARGET="$OUTPUT/Nullstrap_${VERSION}_${RID}.tar.gz" ;;
 esac
 ZSYNC_FINAL_TARGET="${FINAL_TARGET}.zsync"
 if [ -e "$FINAL_TARGET" ]; then
@@ -82,23 +82,23 @@ if [ "$FORMAT" = "appimage" ] && [ -e "$ZSYNC_FINAL_TARGET" ]; then
   echo "The requested update information already exists"
   exit 1
 fi
-LOCK="$OUTPUT/.voidstrap-linux-$RID.lock"
+LOCK="$OUTPUT/.nullstrap-linux-$RID.lock"
 if ! mkdir "$LOCK" 2>/dev/null; then
   echo "Another package operation is already running"
   exit 1
 fi
 # The bundled libraries decide how old a distribution the AppImage still runs on, so
 # they are harvested from a sysroot rather than from whatever the build agent happens
-# to have. VOIDSTRAP_APPIMAGE_SYSROOT_DIR holds one sysroot per AppImage architecture.
+# to have. NULLSTRAP_APPIMAGE_SYSROOT_DIR holds one sysroot per AppImage architecture.
 # Debian 11 is the oldest distribution the packages target, so its glibc is the ceiling.
-APPIMAGE_GLIBC_CEILING="${VOIDSTRAP_APPIMAGE_GLIBC_CEILING:-GLIBC_2.31}"
+APPIMAGE_GLIBC_CEILING="${NULLSTRAP_APPIMAGE_GLIBC_CEILING:-GLIBC_2.31}"
 APPIMAGE_SYSROOT=""
 APPIMAGE_SYSROOT_REQUESTED=0
-if [ -n "${VOIDSTRAP_APPIMAGE_SYSROOT:-}" ]; then
-  APPIMAGE_SYSROOT="$VOIDSTRAP_APPIMAGE_SYSROOT"
+if [ -n "${NULLSTRAP_APPIMAGE_SYSROOT:-}" ]; then
+  APPIMAGE_SYSROOT="$NULLSTRAP_APPIMAGE_SYSROOT"
   APPIMAGE_SYSROOT_REQUESTED=1
-elif [ -n "${VOIDSTRAP_APPIMAGE_SYSROOT_DIR:-}" ]; then
-  APPIMAGE_SYSROOT="$VOIDSTRAP_APPIMAGE_SYSROOT_DIR/$APPIMAGE_ARCH"
+elif [ -n "${NULLSTRAP_APPIMAGE_SYSROOT_DIR:-}" ]; then
+  APPIMAGE_SYSROOT="$NULLSTRAP_APPIMAGE_SYSROOT_DIR/$APPIMAGE_ARCH"
   APPIMAGE_SYSROOT_REQUESTED=1
 fi
 
@@ -116,7 +116,7 @@ esac
 resolve_default_sysroot() {
   [ -n "$APPIMAGE_SYSROOT_DEBIAN_ARCH" ] || return 1
 
-  cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/voidstrap/appimage-sysroots"
+  cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/nullstrap/appimage-sysroots"
   cache_path="$cache_root/$APPIMAGE_ARCH"
   if [ -e "$cache_path/usr/lib/$APPIMAGE_ARCH-linux-gnu/libX11.so.6" ]; then
     APPIMAGE_SYSROOT="$cache_path"
@@ -203,7 +203,7 @@ bundle_runtime_libraries() {
     if ! resolve_default_sysroot; then
       echo "No $APPIMAGE_ARCH sysroot is available, so the AppImage ships without bundled libraries."
       echo "It still runs wherever the X11, Vulkan and font packages are installed."
-      echo "For a download that needs nothing preinstalled, set VOIDSTRAP_APPIMAGE_SYSROOT_DIR"
+      echo "For a download that needs nothing preinstalled, set NULLSTRAP_APPIMAGE_SYSROOT_DIR"
       echo "to a sysroot for $APPIMAGE_ARCH, or make curl, gzip and dpkg-deb available so one"
       echo "can be prepared automatically."
       return 0
@@ -235,7 +235,7 @@ report_glibc_baseline() {
   if [ "$(printf '%s\n%s\n' "$baseline" "$APPIMAGE_GLIBC_CEILING" | sort -V | tail -n 1)" != "$APPIMAGE_GLIBC_CEILING" ]; then
     echo "Warning: the harvested libraries need $baseline, which is newer than $APPIMAGE_GLIBC_CEILING."
     echo "Warning: this AppImage will not start on older distributions, so point"
-    echo "Warning: VOIDSTRAP_APPIMAGE_SYSROOT_DIR at a sysroot built from an older distribution."
+    echo "Warning: NULLSTRAP_APPIMAGE_SYSROOT_DIR at a sysroot built from an older distribution."
   fi
 }
 
@@ -249,23 +249,23 @@ cleanup() {
 }
 
 trap cleanup EXIT
-STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-linux.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/nullstrap-linux.XXXXXX")"
 PUBLISH="$STAGE/publish"
 mkdir -p "$PUBLISH"
 if [ -n "$PUBLISHED_EXECUTABLE" ]; then
   PUBLISHED_EXECUTABLE="$(readlink -f "$PUBLISHED_EXECUTABLE")"
-  [ -f "$PUBLISHED_EXECUTABLE" ] && [ -s "$PUBLISHED_EXECUTABLE" ] || { echo "The published Voidstrap executable is unavailable"; exit 1; }
-  cp "$PUBLISHED_EXECUTABLE" "$PUBLISH/Voidstrap"
+  [ -f "$PUBLISHED_EXECUTABLE" ] && [ -s "$PUBLISHED_EXECUTABLE" ] || { echo "The published Nullstrap executable is unavailable"; exit 1; }
+  cp "$PUBLISHED_EXECUTABLE" "$PUBLISH/Nullstrap"
 else
-  "$DOTNET_COMMAND" publish "$ROOT/src/Voidstrap.Cross/Voidstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:VoidstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
+  "$DOTNET_COMMAND" publish "$ROOT/src/Nullstrap.Cross/Nullstrap.Cross.csproj" -c Release -r "$RID" --self-contained true -o "$PUBLISH" -p:NullstrapLinuxPackagingRoot="$STAGE/" -p:Version="$VERSION" -p:DebugType=none -p:DebugSymbols=false
 fi
-test -s "$PUBLISH/Voidstrap"
+test -s "$PUBLISH/Nullstrap"
 if [ "$(find "$PUBLISH" -mindepth 1 ! -path "$PUBLISH/licenses" ! -path "$PUBLISH/licenses/*" | wc -l)" -ne 1 ]; then
   echo "The Linux publish is not a single file"
   find "$PUBLISH" -mindepth 1
   exit 1
 fi
-chmod 755 "$PUBLISH/Voidstrap"
+chmod 755 "$PUBLISH/Nullstrap"
 mkdir -p "$PUBLISH/licenses"
 cp "$ROOT/THIRD-PARTY-NOTICES.txt" "$ROOT/legal/sources/Bibata-Cursor-v2.0.7.tar.gz" "$PUBLISH/licenses/"
 chmod 755 "$PUBLISH/licenses"
@@ -281,16 +281,16 @@ LICENSE_FILE="$SOURCES/$(basename "$LICENSE_FILE")"
 
 case "$FORMAT" in
   deb)
-    TARGET="$STAGE/Voidstrap_${VERSION}_${DEB_ARCH}.deb"
+    TARGET="$STAGE/Nullstrap_${VERSION}_${DEB_ARCH}.deb"
     ROOTFS="$STAGE/deb"
-    mkdir -p "$ROOTFS/DEBIAN" "$ROOTFS/usr/lib/voidstrap" "$ROOTFS/usr/bin" "$ROOTFS/usr/share/applications" "$ROOTFS/usr/share/icons/hicolor/256x256/apps" "$ROOTFS/usr/share/metainfo" "$ROOTFS/usr/share/doc/voidstrap"
-    cp -R "$PUBLISH/." "$ROOTFS/usr/lib/voidstrap/"
-    ln -s /usr/lib/voidstrap/Voidstrap "$ROOTFS/usr/bin/voidstrap"
+    mkdir -p "$ROOTFS/DEBIAN" "$ROOTFS/usr/lib/nullstrap" "$ROOTFS/usr/bin" "$ROOTFS/usr/share/applications" "$ROOTFS/usr/share/icons/hicolor/256x256/apps" "$ROOTFS/usr/share/metainfo" "$ROOTFS/usr/share/doc/nullstrap"
+    cp -R "$PUBLISH/." "$ROOTFS/usr/lib/nullstrap/"
+    ln -s /usr/lib/nullstrap/Nullstrap "$ROOTFS/usr/bin/nullstrap"
     cp "$DESKTOP_FILE" "$ROOTFS/usr/share/applications/$APPLICATION_ID.desktop"
     cp "$ICON_FILE" "$ROOTFS/usr/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
     cp "$METAINFO_FILE" "$ROOTFS/usr/share/metainfo/$APPLICATION_ID.metainfo.xml"
-    cp "$PUBLISH/licenses/THIRD-PARTY-NOTICES.txt" "$ROOTFS/usr/share/doc/voidstrap/copyright"
-    printf 'Package: voidstrap\nVersion: %s\nSection: games\nPriority: optional\nArchitecture: %s\nMaintainer: Voidstrap\nDepends: libc6, libgcc-s1 | libgcc1, libstdc++6, libvulkan1, mesa-vulkan-drivers | vulkan-icd, libx11-6, libxext6, libxrender1, libxrandr2, libxi6, libxcursor1, libxfixes3, libxcomposite1, libxdamage1, libice6, libsm6, libfontconfig1, libfreetype6, libxkbcommon0, libxkbcommon-x11-0, libwayland-client0, libdbus-1-3, libgl1 | libgl1-mesa-glx, libegl1 | libegl1-mesa, zlib1g, libssl3 | libssl3t64, ca-certificates, flatpak, xdg-utils, desktop-file-utils, libnotify-bin, libsecret-tools, libglib2.0-bin, gstreamer1.0-plugins-base, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-libav, libwebkit2gtk-4.1-0 | libwpewebkit-2.0-1\nRecommends: policykit-1 | polkitd, pkexec, pipewire-bin, wireplumber, x11-xserver-utils\nDescription: Customize and launch Roblox through Sober on Linux\n Voidstrap is an open source Roblox bootstrapper for Linux that installs and launches Roblox through Sober.\n .\n It brings FastFlags, performance and graphics controls, mods, themes, account tools, server tools, Discord Rich Presence, and desktop integrations together in one customizable app.\n' "$VERSION" "$DEB_ARCH" > "$ROOTFS/DEBIAN/control"
+    cp "$PUBLISH/licenses/THIRD-PARTY-NOTICES.txt" "$ROOTFS/usr/share/doc/nullstrap/copyright"
+    printf 'Package: nullstrap\nVersion: %s\nSection: games\nPriority: optional\nArchitecture: %s\nMaintainer: Nullstrap\nDepends: libc6, libgcc-s1 | libgcc1, libstdc++6, libvulkan1, mesa-vulkan-drivers | vulkan-icd, libx11-6, libxext6, libxrender1, libxrandr2, libxi6, libxcursor1, libxfixes3, libxcomposite1, libxdamage1, libice6, libsm6, libfontconfig1, libfreetype6, libxkbcommon0, libxkbcommon-x11-0, libwayland-client0, libdbus-1-3, libgl1 | libgl1-mesa-glx, libegl1 | libegl1-mesa, zlib1g, libssl3 | libssl3t64, ca-certificates, flatpak, xdg-utils, desktop-file-utils, libnotify-bin, libsecret-tools, libglib2.0-bin, gstreamer1.0-plugins-base, gstreamer1.0-plugins-good, gstreamer1.0-plugins-bad, gstreamer1.0-libav, libwebkit2gtk-4.1-0 | libwpewebkit-2.0-1\nRecommends: policykit-1 | polkitd, pkexec, pipewire-bin, wireplumber, x11-xserver-utils\nDescription: Customize and launch Roblox through Sober on Linux\n Nullstrap is an open source Roblox bootstrapper for Linux that installs and launches Roblox through Sober.\n .\n It brings FastFlags, performance and graphics controls, mods, themes, account tools, server tools, Discord Rich Presence, and desktop integrations together in one customizable app.\n' "$VERSION" "$DEB_ARCH" > "$ROOTFS/DEBIAN/control"
     printf '#!/bin/sh\nset -e\ncommand -v update-desktop-database >/dev/null 2>&1 && update-desktop-database /usr/share/applications || true\ncommand -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t /usr/share/icons/hicolor || true\n' > "$ROOTFS/DEBIAN/postinst"
     printf '#!/bin/sh\nset -e\ncommand -v update-desktop-database >/dev/null 2>&1 && update-desktop-database /usr/share/applications || true\ncommand -v gtk-update-icon-cache >/dev/null 2>&1 && gtk-update-icon-cache -f -t /usr/share/icons/hicolor || true\n' > "$ROOTFS/DEBIAN/postrm"
     chmod 755 "$ROOTFS/DEBIAN/postinst" "$ROOTFS/DEBIAN/postrm"
@@ -298,7 +298,7 @@ case "$FORMAT" in
     dpkg-deb --root-owner-group --build "$ROOTFS" "$TARGET"
     ;;
   rpm)
-    TARGET="$STAGE/Voidstrap_${VERSION}_${RPM_ARCH}.rpm"
+    TARGET="$STAGE/Nullstrap_${VERSION}_${RPM_ARCH}.rpm"
     RPMROOT="$STAGE/rpmbuild"
     mkdir -p "$RPMROOT/BUILD" "$RPMROOT/BUILDROOT" "$RPMROOT/RPMS" "$RPMROOT/SOURCES" "$RPMROOT/SPECS" "$RPMROOT/SRPMS" "$RPMROOT/rpmdb"
     cp -R "$PUBLISH/." "$RPMROOT/SOURCES/publish"
@@ -307,16 +307,16 @@ case "$FORMAT" in
     cp "$METAINFO_FILE" "$RPMROOT/SOURCES/$APPLICATION_ID.metainfo.xml"
     cp "$LICENSE_FILE" "$RPMROOT/SOURCES/LICENSE"
     RPM_DATE="$(LC_ALL=C date -u -d "@${SOURCE_DATE_EPOCH:-$(date +%s)}" '+%a %b %d %Y')"
-    sed -e "s/@VERSION@/$VERSION/g" -e "s/@ARCH@/$RPM_ARCH/g" -e "s/@DATE@/$RPM_DATE/g" "$ROOT/build/Packaging/Linux/voidstrap.spec.in" > "$RPMROOT/SPECS/voidstrap.spec"
-    rpmbuild --define "_topdir $RPMROOT" --define "_dbpath $RPMROOT/rpmdb" --target "$RPM_ARCH" -bb "$RPMROOT/SPECS/voidstrap.spec"
-    cp "$RPMROOT/RPMS/$RPM_ARCH/voidstrap-$VERSION-1.$RPM_ARCH.rpm" "$TARGET"
+    sed -e "s/@VERSION@/$VERSION/g" -e "s/@ARCH@/$RPM_ARCH/g" -e "s/@DATE@/$RPM_DATE/g" "$ROOT/build/Packaging/Linux/nullstrap.spec.in" > "$RPMROOT/SPECS/nullstrap.spec"
+    rpmbuild --define "_topdir $RPMROOT" --define "_dbpath $RPMROOT/rpmdb" --target "$RPM_ARCH" -bb "$RPMROOT/SPECS/nullstrap.spec"
+    cp "$RPMROOT/RPMS/$RPM_ARCH/nullstrap-$VERSION-1.$RPM_ARCH.rpm" "$TARGET"
     ;;
   appimage)
-    TARGET="$STAGE/Voidstrap_${VERSION}_${APPIMAGE_ARCH}.AppImage"
+    TARGET="$STAGE/Nullstrap_${VERSION}_${APPIMAGE_ARCH}.AppImage"
     APPDIR="$STAGE/AppDir"
-    mkdir -p "$APPDIR/usr/lib/voidstrap" "$APPDIR/usr/bin"
-    cp -R "$PUBLISH/." "$APPDIR/usr/lib/voidstrap/"
-    ln -s ../lib/voidstrap/Voidstrap "$APPDIR/usr/bin/voidstrap"
+    mkdir -p "$APPDIR/usr/lib/nullstrap" "$APPDIR/usr/bin"
+    cp -R "$PUBLISH/." "$APPDIR/usr/lib/nullstrap/"
+    ln -s ../lib/nullstrap/Nullstrap "$APPDIR/usr/bin/nullstrap"
     bundle_runtime_libraries "$APPDIR/usr/lib/bundled"
     cat > "$APPDIR/AppRun" <<'APPRUN'
 #!/bin/sh
@@ -330,7 +330,7 @@ BUNDLED="$APPDIR/usr/lib/bundled"
 # the entry sits, so the fallback directory is populated with the missing libraries
 # alone rather than pointing at the whole bundle.
 if [ -d "$BUNDLED" ]; then
-    FALLBACK="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/voidstrap-appimage-libraries"
+    FALLBACK="${XDG_RUNTIME_DIR:-${TMPDIR:-/tmp}}/nullstrap-appimage-libraries"
     rm -rf "$FALLBACK"
     if mkdir -p "$FALLBACK" 2>/dev/null; then
         CACHE="$(ldconfig -p 2>/dev/null || /sbin/ldconfig -p 2>/dev/null || echo)"
@@ -360,41 +360,41 @@ if [ -d "$BUNDLED" ]; then
 fi
 
 export APPDIR
-exec "$APPDIR/usr/lib/voidstrap/Voidstrap" "$@"
+exec "$APPDIR/usr/lib/nullstrap/Nullstrap" "$@"
 APPRUN
     chmod 755 "$APPDIR/AppRun"
     cp "$DESKTOP_FILE" "$APPDIR/$APPLICATION_ID.desktop"
     cp "$ICON_FILE" "$APPDIR/$APPLICATION_ID.png"
     ln -s "$APPLICATION_ID.png" "$APPDIR/.DirIcon"
-    mkdir -p "$APPDIR/usr/share/applications" "$APPDIR/usr/share/icons/hicolor/256x256/apps" "$APPDIR/usr/share/metainfo" "$APPDIR/usr/share/licenses/voidstrap"
+    mkdir -p "$APPDIR/usr/share/applications" "$APPDIR/usr/share/icons/hicolor/256x256/apps" "$APPDIR/usr/share/metainfo" "$APPDIR/usr/share/licenses/nullstrap"
     cp "$DESKTOP_FILE" "$APPDIR/usr/share/applications/$APPLICATION_ID.desktop"
     cp "$ICON_FILE" "$APPDIR/usr/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
     cp "$METAINFO_FILE" "$APPDIR/usr/share/metainfo/$APPLICATION_ID.appdata.xml"
-    cp "$LICENSE_FILE" "$APPDIR/usr/share/licenses/voidstrap/LICENSE"
-    cp "$PUBLISH/licenses/"* "$APPDIR/usr/share/licenses/voidstrap/"
+    cp "$LICENSE_FILE" "$APPDIR/usr/share/licenses/nullstrap/LICENSE"
+    cp "$PUBLISH/licenses/"* "$APPDIR/usr/share/licenses/nullstrap/"
     sed -i -E "s#<release version=\"[^\"]+\" date=\"[^\"]+\" />#<release version=\"$VERSION\" date=\"$(date -u +%Y-%m-%d)\" />#" "$APPDIR/usr/share/metainfo/$APPLICATION_ID.appdata.xml"
     chmod -R go-w "$APPDIR"
-    UPDATE_INFORMATION="gh-releases-zsync|KloBraticc|Voidstrap|latest|Voidstrap_*_${APPIMAGE_ARCH}.AppImage.zsync"
+    UPDATE_INFORMATION="gh-releases-zsync|hxpedz|Nullstrap|latest|Nullstrap_*_${APPIMAGE_ARCH}.AppImage.zsync"
     (
       cd "$STAGE"
       ARCH="$APPIMAGE_ARCH" APPIMAGE_EXTRACT_AND_RUN=1 "$APPIMAGE_TOOL" -u "$UPDATE_INFORMATION" "$APPDIR" "$TARGET"
     )
     ;;
   tar)
-    TARGET="$STAGE/Voidstrap_${VERSION}_${RID}.tar.gz"
-    UNCOMPRESSED="$STAGE/Voidstrap_${VERSION}_${RID}.tar"
-    BUNDLE="$STAGE/Voidstrap"
-    mkdir -p "$BUNDLE/share/applications" "$BUNDLE/share/icons/hicolor/256x256/apps" "$BUNDLE/share/metainfo" "$BUNDLE/share/licenses/voidstrap"
-    cp "$PUBLISH/Voidstrap" "$BUNDLE/Voidstrap"
-    chmod 755 "$BUNDLE/Voidstrap"
+    TARGET="$STAGE/Nullstrap_${VERSION}_${RID}.tar.gz"
+    UNCOMPRESSED="$STAGE/Nullstrap_${VERSION}_${RID}.tar"
+    BUNDLE="$STAGE/Nullstrap"
+    mkdir -p "$BUNDLE/share/applications" "$BUNDLE/share/icons/hicolor/256x256/apps" "$BUNDLE/share/metainfo" "$BUNDLE/share/licenses/nullstrap"
+    cp "$PUBLISH/Nullstrap" "$BUNDLE/Nullstrap"
+    chmod 755 "$BUNDLE/Nullstrap"
     cp "$DESKTOP_FILE" "$BUNDLE/share/applications/$APPLICATION_ID.desktop"
     cp "$ICON_FILE" "$BUNDLE/share/icons/hicolor/256x256/apps/$APPLICATION_ID.png"
     cp "$METAINFO_FILE" "$BUNDLE/share/metainfo/$APPLICATION_ID.metainfo.xml"
-    cp "$LICENSE_FILE" "$BUNDLE/share/licenses/voidstrap/LICENSE"
-    cp "$PUBLISH/licenses/"* "$BUNDLE/share/licenses/voidstrap/"
+    cp "$LICENSE_FILE" "$BUNDLE/share/licenses/nullstrap/LICENSE"
+    cp "$PUBLISH/licenses/"* "$BUNDLE/share/licenses/nullstrap/"
     chmod -R go-w "$BUNDLE"
-    tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Voidstrap/Voidstrap" -C "$STAGE" -cf "$UNCOMPRESSED" Voidstrap
-    tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$UNCOMPRESSED" Voidstrap/Voidstrap
+    tar --sort=name --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --exclude="Nullstrap/Nullstrap" -C "$STAGE" -cf "$UNCOMPRESSED" Nullstrap
+    tar --mtime="@${SOURCE_DATE_EPOCH:-0}" --owner=0 --group=0 --numeric-owner --mode=0755 -C "$STAGE" -rf "$UNCOMPRESSED" Nullstrap/Nullstrap
     gzip -n -f "$UNCOMPRESSED"
     ;;
 esac

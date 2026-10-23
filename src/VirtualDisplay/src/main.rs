@@ -9,7 +9,7 @@ fn main() -> std::process::ExitCode {
         Ok(None) => {
             let _ = writeln!(
                 std::io::stdout(),
-                "Usage: voidstrap-virtualdisplay [--width pixels --height pixels] [--refresh-rate hz] [--watch-stdin] [--probe]"
+                "Usage: nullstrap-virtualdisplay [--width pixels --height pixels] [--refresh-rate hz] [--watch-stdin] [--probe]"
             );
             return std::process::ExitCode::SUCCESS;
         }

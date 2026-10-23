@@ -8,8 +8,8 @@ use std::collections::{BTreeMap, HashMap};
 use std::path::{Path, PathBuf};
 
 pub const FORMAT: i64 = 1;
-pub const REMOTE_DIR: &str = "/data/local/tmp/voidstrap_mods";
-pub const CACHE_LIST: &str = "/data/local/tmp/voidstrap_cache_";
+pub const REMOTE_DIR: &str = "/data/local/tmp/nullstrap_mods";
+pub const CACHE_LIST: &str = "/data/local/tmp/nullstrap_cache_";
 
 pub struct Roots {
     pub mods: PathBuf,
@@ -77,7 +77,7 @@ fn mounts() -> Vec<Vec<String>> {
 }
 
 pub fn mounted_for(pkg: &str, target: &str) -> bool {
-    let tail = format!("/voidstrap_mods/{pkg}.apk");
+    let tail = format!("/nullstrap_mods/{pkg}.apk");
     mounts().iter().any(|f| f.len() > 4 && f[4] == target && f[3].ends_with(&tail))
 }
 
@@ -235,12 +235,12 @@ fn common(pkg: &str, target: &str) -> String {
     format!(
         "P={}\nT={}\nR={REMOTE_DIR}\nD=$R/$P.apk\nO=$R/$P.orig.apk\nNS=''\n\
 if nsenter -t 1 -m -- true 2>/dev/null; then NS='nsenter -t 1 -m --'; fi\n\
-ours() {{ grep \" $T \" /proc/1/mountinfo | grep -q \"/voidstrap_mods/$P.apk \"; }}\n\
+ours() {{ grep \" $T \" /proc/1/mountinfo | grep -q \"/nullstrap_mods/$P.apk \"; }}\n\
 any() {{ grep -q \" $T \" /proc/1/mountinfo; }}\n\
 unmount_all() {{\n\
   M=$(cat /proc/1/mountinfo)\n\
   echo \"$M\" | while read -r a b c r m rest; do\n\
-    case \"$r\" in */voidstrap_mods/\"$P\".apk) $NS umount -l \"$m\" 2>/dev/null;; esac\n\
+    case \"$r\" in */nullstrap_mods/\"$P\".apk) $NS umount -l \"$m\" 2>/dev/null;; esac\n\
     if [ \"$m\" = \"$T\" ] || [ \"$m\" = \"$O\" ]; then $NS umount -l \"$m\" 2>/dev/null; fi\n\
   done\n\
 }}\n\

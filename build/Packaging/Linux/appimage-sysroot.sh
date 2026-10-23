@@ -9,8 +9,8 @@ set -euo pipefail
 
 ARCHITECTURE="${1:?A Debian architecture is required, for example amd64 or arm64}"
 DESTINATION="${2:?A destination directory is required}"
-SUITE="${VOIDSTRAP_APPIMAGE_SYSROOT_SUITE:-bullseye}"
-MIRROR="${VOIDSTRAP_APPIMAGE_SYSROOT_MIRROR:-https://deb.debian.org/debian}"
+SUITE="${NULLSTRAP_APPIMAGE_SYSROOT_SUITE:-bullseye}"
+MIRROR="${NULLSTRAP_APPIMAGE_SYSROOT_MIRROR:-https://deb.debian.org/debian}"
 
 case "$ARCHITECTURE" in
   amd64) TRIPLET="x86_64-linux-gnu" ;;
@@ -35,7 +35,7 @@ PACKAGES="
   libdbus-1-3
 "
 
-STAGE="$(mktemp -d "${TMPDIR:-/tmp}/voidstrap-sysroot.XXXXXX")"
+STAGE="$(mktemp -d "${TMPDIR:-/tmp}/nullstrap-sysroot.XXXXXX")"
 cleanup() { [ -n "${STAGE:-}" ] && rm -rf "$STAGE"; }
 trap cleanup EXIT
 

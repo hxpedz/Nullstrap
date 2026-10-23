@@ -5,7 +5,7 @@ pub const MAX_ENTRIES: usize = 10000;
 pub const MAX_KEY: usize = 256;
 pub const MAX_VALUE: usize = 4096;
 pub const MAX_NAME: usize = 64;
-pub const FORMAT: &str = "voidstrap.flags";
+pub const FORMAT: &str = "nullstrap.flags";
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Flag {

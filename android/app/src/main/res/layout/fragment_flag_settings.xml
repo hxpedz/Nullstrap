@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+<com.nullstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:fillViewport="true">
 
-    <LinearLayout style="@style/Voidstrap.Page">
+    <LinearLayout style="@style/Nullstrap.Page">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/flag_settings_title"
-            android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle" />
+            android:textAppearance="@style/TextAppearance.Nullstrap.PageTitle" />
 
         <TextView
             android:id="@+id/flag_settings_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textAppearance="@style/TextAppearance.Voidstrap.PageSubtitle" />
+            android:textAppearance="@style/TextAppearance.Nullstrap.PageSubtitle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,11 +38,11 @@
                 android:minHeight="32dp"
                 android:paddingStart="4dp"
                 android:paddingEnd="8dp"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/flag_settings_editor"
-                style="@style/Widget.Voidstrap.Button.Subtle"
+                style="@style/Widget.Nullstrap.Button.Subtle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/flag_settings_open_editor" />
@@ -54,4 +54,4 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp" />
     </LinearLayout>
-</com.voidstrap.android.ScrollPane>
+</com.nullstrap.android.ScrollPane>

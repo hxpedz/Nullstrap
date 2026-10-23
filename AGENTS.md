@@ -1,6 +1,6 @@
 # Using AI
 
-AI is allowed in Voidstrap and always will be. New contributors can use it too. Use it to help you learn the code, work through ideas, write code, fix bugs, or test things. You're still responsible for what you submit.
+AI is allowed in Nullstrap and always will be. New contributors can use it too. Use it to help you learn the code, work through ideas, write code, fix bugs, or test things. You're still responsible for what you submit.
 
 ## Get to know the code first
 

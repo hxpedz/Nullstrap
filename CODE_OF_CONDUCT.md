@@ -2,7 +2,7 @@
 
 ## Our pledge
 
-We want Voidstrap to be a friendly and welcoming place for everyone, whatever their age, background, identity or experience. Everyone who takes part in the project, on GitHub or on the Voidstrap Discord server, agrees to follow this code of conduct.
+We want Nullstrap to be a friendly and welcoming place for everyone, whatever their age, background, identity or experience. Everyone who takes part in the project, on GitHub or on the Nullstrap Discord server, agrees to follow this code of conduct.
 
 ## Expected behavior
 
@@ -22,20 +22,20 @@ We want Voidstrap to be a friendly and welcoming place for everyone, whatever th
 
 ## Scope
 
-This code of conduct applies in every Voidstrap space: the GitHub repository (issues, pull requests, discussions and reviews) and the Voidstrap Discord server. It also applies when someone represents Voidstrap anywhere else.
+This code of conduct applies in every Nullstrap space: the GitHub repository (issues, pull requests, discussions and reviews) and the Nullstrap Discord server. It also applies when someone represents Nullstrap anywhere else.
 
 ## Reporting
 
 If you see or experience unacceptable behavior, report it privately in whichever way you prefer:
 
-* **Discord:** send a direct message to a Voidstrap staff member on the [Discord server](https://discord.gg/5tJBqBH8ck).
+* **Discord:** send a direct message to a Nullstrap staff member on the [Discord server](https://discord.gg/5tJBqBH8ck).
 * **GitHub:** open the **...** menu on the comment, issue or pull request and choose **Report content**.
 
 Include what happened, where it happened (links or screenshots help) and when. Reports are kept confidential, and nobody who reports in good faith will face retaliation.
 
 ## Enforcement
 
-Voidstrap maintainers and Discord staff review every report and decide on a response. Depending on how serious it is, that can be:
+Nullstrap maintainers and Discord staff review every report and decide on a response. Depending on how serious it is, that can be:
 
 1. A private warning that explains what was wrong.
 2. A temporary ban from the GitHub repository or the Discord server.

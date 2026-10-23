@@ -14,14 +14,14 @@ case "$RID" in
     linux-musl-arm64) PROCESSOR=aarch64 ;;
     *) echo "Unsupported runtime: $RID" >&2; exit 1 ;;
 esac
-if [[ -n "${VOIDSTRAP_NATIVE_COMPILER:-}" ]]; then
-    CMAKE_ARGS+=(-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR="$PROCESSOR" -DCMAKE_C_COMPILER="$VOIDSTRAP_NATIVE_COMPILER" -DMATH_LIBRARY=m -DRT_LIBRARY=rt)
+if [[ -n "${NULLSTRAP_NATIVE_COMPILER:-}" ]]; then
+    CMAKE_ARGS+=(-DCMAKE_SYSTEM_NAME=Linux -DCMAKE_SYSTEM_PROCESSOR="$PROCESSOR" -DCMAKE_C_COMPILER="$NULLSTRAP_NATIVE_COMPILER" -DMATH_LIBRARY=m -DRT_LIBRARY=rt)
 fi
 cmake -S "$WORK/glfw" -B "$WORK/build" "${CMAKE_ARGS[@]}"
-cmake --build "$WORK/build" --parallel "${VOIDSTRAP_NATIVE_JOBS:-4}"
+cmake --build "$WORK/build" --parallel "${NULLSTRAP_NATIVE_JOBS:-4}"
 mkdir -p "$OUTPUT"
 cp "$WORK/build/src/libglfw.so.3.4" "$OUTPUT/libglfw.so.3"
-"${VOIDSTRAP_NATIVE_STRIP:-strip}" --strip-all "$OUTPUT/libglfw.so.3"
+"${NULLSTRAP_NATIVE_STRIP:-strip}" --strip-all "$OUTPUT/libglfw.so.3"
 if readelf --version-info "$OUTPUT/libglfw.so.3" | grep 'GLIBC_' > /dev/null; then
     echo "The window library still links against glibc" >&2
     exit 1

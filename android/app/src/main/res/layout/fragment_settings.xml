@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:accessibilityHeading="true"
                 android:text="@string/settings_title"
-                android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle"
+                android:textAppearance="@style/TextAppearance.Nullstrap.PageTitle"
                 tools:targetApi="p" />
         </LinearLayout>
 
@@ -48,7 +48,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/settings_page_appearance"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -56,7 +56,7 @@
             android:fillViewport="true">
 
             <LinearLayout
-                style="@style/Voidstrap.Page"
+                style="@style/Nullstrap.Page"
                 android:paddingTop="12dp">
 
                 <com.google.android.material.card.MaterialCardView
@@ -72,9 +72,9 @@
                         android:paddingBottom="4dp" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/settings_page_notifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -84,11 +84,11 @@
 
             <LinearLayout
                 android:id="@+id/notification_sections"
-                style="@style/Voidstrap.Page"
+                style="@style/Nullstrap.Page"
                 android:paddingTop="12dp" />
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/settings_page_roblox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -97,7 +97,7 @@
             android:visibility="gone">
 
             <LinearLayout
-                style="@style/Voidstrap.Page"
+                style="@style/Nullstrap.Page"
                 android:paddingTop="12dp">
 
                 <com.google.android.material.card.MaterialCardView
@@ -106,7 +106,7 @@
 
                     <LinearLayout
                         android:id="@+id/roblox_rows"
-                        style="@style/Voidstrap.CardBody"
+                        style="@style/Nullstrap.CardBody"
                         android:padding="4dp">
 
                         <include
@@ -115,9 +115,9 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/settings_page_backup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -126,20 +126,20 @@
             android:visibility="gone">
 
             <LinearLayout
-                style="@style/Voidstrap.Page"
+                style="@style/Nullstrap.Page"
                 android:paddingTop="12dp">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout style="@style/Voidstrap.CardBody">
+                    <LinearLayout style="@style/Nullstrap.CardBody">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/settings_backup_body"
-                            android:textAppearance="@style/TextAppearance.Voidstrap.Caption" />
+                            android:textAppearance="@style/TextAppearance.Nullstrap.Caption" />
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -148,7 +148,7 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/backup_export"
-                                style="@style/Widget.Voidstrap.Button.Standard"
+                                style="@style/Widget.Nullstrap.Button.Standard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_backup_export"
@@ -156,7 +156,7 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/backup_import"
-                                style="@style/Widget.Voidstrap.Button.Standard"
+                                style="@style/Widget.Nullstrap.Button.Standard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/settings_backup_import"
@@ -178,9 +178,9 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/settings_page_about"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -189,7 +189,7 @@
             android:visibility="gone">
 
             <LinearLayout
-                style="@style/Voidstrap.Page"
+                style="@style/Nullstrap.Page"
                 android:paddingTop="12dp">
 
                 <com.google.android.material.card.MaterialCardView
@@ -198,7 +198,7 @@
 
                     <LinearLayout
                         android:id="@+id/about_rows"
-                        style="@style/Voidstrap.CardBody"
+                        style="@style/Nullstrap.CardBody"
                         android:padding="4dp" />
                 </com.google.android.material.card.MaterialCardView>
 
@@ -208,8 +208,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center_horizontal"
-                    android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+                    android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary" />
             </LinearLayout>
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -73,7 +73,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/lib_refresh"
-                style="@style/Widget.Voidstrap.Button.Subtle"
+                style="@style/Widget.Nullstrap.Button.Subtle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -85,7 +85,7 @@
                 app:iconPadding="0dp" />
         </LinearLayout>
 
-        <com.voidstrap.android.ListPane
+        <com.nullstrap.android.ListPane
             android:id="@+id/lib_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -130,7 +130,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/lib_add_button"
-                    style="@style/Widget.Voidstrap.Button.Standard"
+                    style="@style/Widget.Nullstrap.Button.Standard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="6dp"
@@ -159,7 +159,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/lib_dashboard"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -171,9 +171,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
 
-        <com.voidstrap.android.ScrollPane
+        <com.nullstrap.android.ScrollPane
             android:id="@+id/lib_detail_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -184,7 +184,7 @@
             <include
                 android:id="@+id/lib_detail"
                 layout="@layout/view_library_detail" />
-        </com.voidstrap.android.ScrollPane>
+        </com.nullstrap.android.ScrollPane>
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/lib_loading"

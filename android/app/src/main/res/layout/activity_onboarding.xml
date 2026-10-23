@@ -30,13 +30,13 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/onboarding_skip"
-            style="@style/Widget.Voidstrap.Button.Subtle"
+            style="@style/Widget.Nullstrap.Button.Subtle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_skip" />
     </LinearLayout>
 
-    <com.voidstrap.android.ScrollPane
+    <com.nullstrap.android.ScrollPane
         android:id="@+id/onboarding_scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -85,7 +85,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
                     android:accessibilityHeading="true"
-                    android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle"
+                    android:textAppearance="@style/TextAppearance.Nullstrap.PageTitle"
                     tools:targetApi="p" />
             </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Body" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Body" />
 
             <LinearLayout
                 android:id="@+id/onboarding_content"
@@ -103,7 +103,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical" />
         </LinearLayout>
-    </com.voidstrap.android.ScrollPane>
+    </com.nullstrap.android.ScrollPane>
 
     <LinearLayout
         android:id="@+id/onboarding_bottom"
@@ -122,7 +122,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/onboarding_back"
-            style="@style/Widget.Voidstrap.Button.Subtle"
+            style="@style/Widget.Nullstrap.Button.Subtle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/onboarding_back" />

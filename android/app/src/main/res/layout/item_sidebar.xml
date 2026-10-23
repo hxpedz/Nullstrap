@@ -37,6 +37,6 @@
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:maxLines="1"
-        android:textAppearance="@style/TextAppearance.Voidstrap.NavLabel"
+        android:textAppearance="@style/TextAppearance.Nullstrap.NavLabel"
         android:textColor="@color/vs_nav_item" />
 </LinearLayout>

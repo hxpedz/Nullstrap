@@ -1,5 +1,5 @@
 {
-  description = "Voidstrap, a Roblox bootstrapper that launches Roblox through Sober on Linux";
+  description = "Nullstrap, a Roblox bootstrapper that launches Roblox through Sober on Linux";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   inputs.self.submodules = true;
@@ -13,26 +13,26 @@
       ];
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
       version = builtins.head (
-        builtins.elemAt (builtins.split "<VoidstrapVersion>([0-9.]+)</VoidstrapVersion>" (builtins.readFile ./Directory.Build.props)) 1
+        builtins.elemAt (builtins.split "<NullstrapVersion>([0-9.]+)</NullstrapVersion>" (builtins.readFile ./Directory.Build.props)) 1
       );
     in
     {
       packages = forAllSystems (pkgs: rec {
-        voidstrap = pkgs.callPackage ./nix/package.nix { };
-        voidstrap-git = voidstrap.overrideAttrs {
+        nullstrap = pkgs.callPackage ./nix/package.nix { };
+        nullstrap-git = nullstrap.overrideAttrs {
           inherit version;
           src = self;
         };
-        default = voidstrap;
+        default = nullstrap;
       });
 
       overlays.default = final: prev: {
-        voidstrap = self.packages.${final.stdenv.hostPlatform.system}.voidstrap;
+        nullstrap = self.packages.${final.stdenv.hostPlatform.system}.nullstrap;
       };
 
       devShells = forAllSystems (pkgs: {
         default = pkgs.mkShell {
-          inputsFrom = [ self.packages.${pkgs.stdenv.hostPlatform.system}.voidstrap-git ];
+          inputsFrom = [ self.packages.${pkgs.stdenv.hostPlatform.system}.nullstrap-git ];
           packages = [
             pkgs.cargo
             pkgs.rustc

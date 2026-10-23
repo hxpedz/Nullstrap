@@ -89,9 +89,9 @@ $Staging   = Join-Path $Out '.staging'
 $LinuxOut  = Join-Path $Out 'Linux'
 $MacOut    = Join-Path $Out 'macOS'
 $ArtifactDir = [System.IO.Path]::GetFullPath((Join-Path $Root 'artifacts/publish'))
-$WinProj   = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Voidstrap.App/Voidstrap.csproj'))
-$CrossProj = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Voidstrap.Cross/Voidstrap.Cross.csproj'))
-$Sln       = [System.IO.Path]::GetFullPath((Join-Path $Root 'Voidstrap.sln'))
+$WinProj   = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Nullstrap.App/Nullstrap.csproj'))
+$CrossProj = [System.IO.Path]::GetFullPath((Join-Path $Root 'src/Nullstrap.Cross/Nullstrap.Cross.csproj'))
+$Sln       = [System.IO.Path]::GetFullPath((Join-Path $Root 'Nullstrap.sln'))
 $IsLinuxHost = [System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform([System.Runtime.InteropServices.OSPlatform]::Linux)
 $LinuxPackagingTools = @('dpkg-deb', 'rpmbuild', 'flatpak', 'flatpak-builder')
 
@@ -317,10 +317,10 @@ function Get-MissingAndroidSigningProperties {
     param([Parameter(Mandatory)] [string]$GradlePropertiesPath)
 
     $signingProperties = @(
-        'voidstrap.storeFile',
-        'voidstrap.storePassword',
-        'voidstrap.keyAlias',
-        'voidstrap.keyPassword'
+        'nullstrap.storeFile',
+        'nullstrap.storePassword',
+        'nullstrap.keyAlias',
+        'nullstrap.keyPassword'
     )
     $declared = if (Test-Path -LiteralPath $GradlePropertiesPath -PathType Leaf) {
         Get-Content -LiteralPath $GradlePropertiesPath
@@ -449,12 +449,12 @@ function Complete-AndroidPublish {
         if ((Get-Item -LiteralPath $built).Length -lt 1048576) {
             throw "The $flavour release APK is unexpectedly small."
         }
-        $published = Join-Path $androidOutput "Voidstrap-Android-$flavour-$Version.apk"
+        $published = Join-Path $androidOutput "Nullstrap-Android-$flavour-$Version.apk"
         Copy-Item -LiteralPath $built -Destination $published -Force
         Write-Host "  $([System.IO.Path]::GetFileName($published))" -ForegroundColor Green
     }
 
-    Assert-AndroidFlavourSplit (Join-Path $androidOutput "Voidstrap-Android-play-$Version.apk")
+    Assert-AndroidFlavourSplit (Join-Path $androidOutput "Nullstrap-Android-play-$Version.apk")
 }
 
 function Assert-AndroidFlavourSplit {
@@ -540,7 +540,7 @@ function Resolve-AppImageTool {
     } else {
         Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)) '.cache'
     }
-    $toolDirectory = Join-Path $cacheBase "voidstrap/build-tools/appimagetool/$toolVersion"
+    $toolDirectory = Join-Path $cacheBase "nullstrap/build-tools/appimagetool/$toolVersion"
     $toolPath = Join-Path $toolDirectory "appimagetool-$toolArchitecture.AppImage"
     $toolValid = (Test-Path -LiteralPath $toolPath -PathType Leaf) -and
         [string]::Equals((Get-FileHash -LiteralPath $toolPath -Algorithm SHA256).Hash, $expectedHash, [System.StringComparison]::OrdinalIgnoreCase)
@@ -832,7 +832,7 @@ function Get-PackageFiles {
 function Test-PackageCache {
     param([Parameter(Mandatory)] $Job)
 
-    if ($Clean -or $env:MACOS_SIGN_IDENTITY -or $env:MACOS_NOTARY_PROFILE -or $env:VOIDSTRAP_APPIMAGE_SYSROOT -or $env:VOIDSTRAP_APPIMAGE_SYSROOT_DIR) {
+    if ($Clean -or $env:MACOS_SIGN_IDENTITY -or $env:MACOS_NOTARY_PROFILE -or $env:NULLSTRAP_APPIMAGE_SYSROOT -or $env:NULLSTRAP_APPIMAGE_SYSROOT_DIR) {
         return $false
     }
     $stampPath = Join-Path (Join-Path $ArtifactDir $Job.Target.Key) 'packages.json'
@@ -1193,14 +1193,14 @@ function Show-PublishFailure {
     Write-Host ''
 }
 
-function Get-VoidstrapVersion {
+function Get-NullstrapVersion {
     $props = Join-Path $Root 'Directory.Build.props'
     if (-not (Test-Path -LiteralPath $props -PathType Leaf)) {
         throw "Directory.Build.props was not found: $props"
     }
-    $match = [regex]::Match((Get-Content -Raw -LiteralPath $props), '<VoidstrapVersion>([^<]+)</VoidstrapVersion>')
+    $match = [regex]::Match((Get-Content -Raw -LiteralPath $props), '<NullstrapVersion>([^<]+)</NullstrapVersion>')
     if (-not $match.Success) {
-        throw 'The Voidstrap package version is unavailable.'
+        throw 'The Nullstrap package version is unavailable.'
     }
     return $match.Groups[1].Value
 }
@@ -1215,8 +1215,8 @@ function Resolve-SignPathSource {
     }
 
     $origin = (& git -C $Root remote get-url origin 2>$null | Out-String).Trim()
-    if ($LASTEXITCODE -ne 0 -or $origin -notmatch '(?i)github\.com[:/]KloBraticc/Voidstrap(?:\.git)?\z') {
-        throw 'SignPath requires the repository origin to be KloBraticc/Voidstrap on GitHub.'
+    if ($LASTEXITCODE -ne 0 -or $origin -notmatch '(?i)github\.com[:/]hxpedz/Nullstrap(?:\.git)?\z') {
+        throw 'SignPath requires the repository origin to be hxpedz/Nullstrap on GitHub.'
     }
 
     $status = @(& git -C $Root status --porcelain --untracked-files=all)
@@ -1272,9 +1272,9 @@ function Invoke-SignPathWindows {
     $ghPath = $Context.GhPath
 
     $requestId = [guid]::NewGuid().ToString('N')
-    $runName = "Sign Voidstrap $Version $requestId"
+    $runName = "Sign Nullstrap $Version $requestId"
     Write-Host "  Requesting trusted GitHub signing for commit $head..." -ForegroundColor DarkGray
-    & $ghPath workflow run windows-release-signing.yml --repo KloBraticc/Voidstrap --ref main -f "commit=$head" -f "version=$Version" -f "request-id=$requestId" 2>&1 | Out-Null
+    & $ghPath workflow run windows-release-signing.yml --repo hxpedz/Nullstrap --ref main -f "commit=$head" -f "version=$Version" -f "request-id=$requestId" 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw 'GitHub Actions could not start the SignPath signing workflow. Check GitHub CLI authentication and workflow availability.'
     }
@@ -1282,7 +1282,7 @@ function Invoke-SignPathWindows {
     $runId = $null
     $findDeadline = [DateTime]::UtcNow.AddMinutes(2)
     while (-not $runId -and [DateTime]::UtcNow -lt $findDeadline) {
-        $runsJson = & $ghPath run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,name 2>&1 | Out-String
+        $runsJson = & $ghPath run list --repo hxpedz/Nullstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,name 2>&1 | Out-String
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions did not return the signing workflow run.'
         }
@@ -1298,9 +1298,9 @@ function Invoke-SignPathWindows {
     $signingRun = $null
     $signingDeadline = [DateTime]::UtcNow.AddHours(1)
     $lastProgressAt = [DateTime]::UtcNow
-    Write-Host "  Waiting for the GitHub build and SignPath signature: https://github.com/KloBraticc/Voidstrap/actions/runs/$runId" -ForegroundColor DarkGray
+    Write-Host "  Waiting for the GitHub build and SignPath signature: https://github.com/hxpedz/Nullstrap/actions/runs/$runId" -ForegroundColor DarkGray
     while ([DateTime]::UtcNow -lt $signingDeadline) {
-        $runJson = & $ghPath run view $runId --repo KloBraticc/Voidstrap --json status,conclusion 2>&1 | Out-String
+        $runJson = & $ghPath run view $runId --repo hxpedz/Nullstrap --json status,conclusion 2>&1 | Out-String
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions did not return the status of the signing run.'
         }
@@ -1312,7 +1312,7 @@ function Invoke-SignPathWindows {
         }
         Start-Sleep -Seconds 10
     }
-    $runUrl = "https://github.com/KloBraticc/Voidstrap/actions/runs/$runId"
+    $runUrl = "https://github.com/hxpedz/Nullstrap/actions/runs/$runId"
     if (-not $signingRun -or $signingRun.status -ne 'completed') {
         throw "SignPath signing run did not finish within one hour: $runUrl"
     }
@@ -1326,21 +1326,21 @@ function Invoke-SignPathWindows {
     }
     New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
     try {
-        & $ghPath run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-signed-$Version" --dir $downloadDir
+        & $ghPath run download $runId --repo hxpedz/Nullstrap --name "nullstrap-windows-signed-$Version" --dir $downloadDir
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions could not download the signed Windows executable.'
         }
 
         $downloadedFiles = @(Get-ChildItem -LiteralPath $downloadDir -File -Force)
         $downloadedDirectories = @(Get-ChildItem -LiteralPath $downloadDir -Directory -Force)
-        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne 1 -or $downloadedFiles[0].Name -cne 'Voidstrap.exe') {
-            throw 'The signing run did not return exactly one Voidstrap.exe file.'
+        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne 1 -or $downloadedFiles[0].Name -cne 'Nullstrap.exe') {
+            throw 'The signing run did not return exactly one Nullstrap.exe file.'
         }
 
         $signedExe = $downloadedFiles[0].FullName
         $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($signedExe)
-        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $Version) {
-            throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
+        if ($info.ProductName -ne 'Nullstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Nullstrap' -or $info.OriginalFilename -ne 'Nullstrap.dll' -or $info.FileVersion -ne $Version) {
+            throw "Unexpected signed Nullstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
         }
         $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
         if ($null -eq $signature.SignerCertificate) {
@@ -1356,7 +1356,7 @@ function Invoke-SignPathWindows {
         if ((Get-FileHash -LiteralPath $OutputPath -Algorithm SHA256).Hash -ne $signedHash) {
             throw 'The signed executable changed while being copied into the publish output.'
         }
-        Write-Host '  Voidstrap.exe: signed by the trusted GitHub Actions build.' -ForegroundColor Green
+        Write-Host '  Nullstrap.exe: signed by the trusted GitHub Actions build.' -ForegroundColor Green
     }
     finally {
         Remove-BuildDirectory -Path $downloadDir
@@ -1366,7 +1366,7 @@ function Invoke-SignPathWindows {
 function Get-LatestReleaseVersion {
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-        $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/KloBraticc/Voidstrap/releases/latest' -TimeoutSec 20 -UseBasicParsing
+        $release = Invoke-RestMethod -Uri 'https://api.github.com/repos/hxpedz/Nullstrap/releases/latest' -TimeoutSec 20 -UseBasicParsing
         return ([string]$release.tag_name) -replace '^v', ''
     } catch {
         return $null
@@ -1398,7 +1398,7 @@ function Update-NixPackage {
     }
 
     Write-Host "Nix package: updating $current to $latest, this builds the release in Docker" -ForegroundColor Cyan
-    $workDir = Join-Path ([System.IO.Path]::GetTempPath()) ('voidstrap-nix-' + [guid]::NewGuid().ToString('N'))
+    $workDir = Join-Path ([System.IO.Path]::GetTempPath()) ('nullstrap-nix-' + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Force -Path $workDir | Out-Null
     $log = Join-Path $ArtifactDir 'nix.log'
     New-Item -ItemType Directory -Force -Path $ArtifactDir | Out-Null
@@ -1411,15 +1411,15 @@ function Update-NixPackage {
         'cd /work',
         'sed -i "s/version = \"[^\"]*\";/version = \"0\";/" nix/package.nix',
         'git init -q && git add -A && git -c user.name=nix -c user.email=nix@localhost commit -qm work',
-        'nix run nixpkgs#nix-update -- --flake voidstrap --version "$1" --subpackage voidimage',
-        'nix build .#voidstrap -o /tmp/result',
-        'test -x /tmp/result/bin/voidstrap',
-        'test -e /tmp/result/lib/voidstrap/libvoidimage.so',
+        'nix run nixpkgs#nix-update -- --flake nullstrap --version "$1" --subpackage nullimage',
+        'nix build .#nullstrap -o /tmp/result',
+        'test -x /tmp/result/bin/nullstrap',
+        'test -e /tmp/result/lib/nullstrap/libnullimage.so',
         'cp nix/package.nix nix/deps.json /out/'
     ) -join "`n"
     [System.IO.File]::WriteAllText((Join-Path $workDir 'update.sh'), $updateScript + "`n")
     try {
-        $arguments = "run --rm --privileged -v voidstrap-nix:/nix -v `"${Root}:/src:ro`" -v `"${workDir}:/out`" nixos/nix:latest sh /out/update.sh $latest"
+        $arguments = "run --rm --privileged -v nullstrap-nix:/nix -v `"${Root}:/src:ro`" -v `"${workDir}:/out`" nixos/nix:latest sh /out/update.sh $latest"
         $process = Start-Process -FilePath $docker.Source -ArgumentList $arguments -NoNewWindow -PassThru -RedirectStandardOutput $log -RedirectStandardError "$log.err"
         $null = $process.Handle
         while (-not $process.WaitForExit(15000)) {
@@ -1595,7 +1595,7 @@ if (($env:PATH -split [regex]::Escape($pathSeparator)) -notcontains $dotnetDirec
 
 $script:DotNetPath = $dotnetPath
 
-Write-Host 'Voidstrap Build' -ForegroundColor Cyan
+Write-Host 'Nullstrap Build' -ForegroundColor Cyan
 Write-Host "Root:   $Root"
 Write-Host "Output: $Out"
 Write-Host "SDK:    $script:DotNetVersion"
@@ -1620,13 +1620,13 @@ $PubOpts = @(
 )
 
 $AllTargets = @(
-    [pscustomobject]@{ Name='Windows-x64';       Key='windows';          Kind='windows'; Rid='win-x64';          OutDir=(Join-Path $Out 'Windows');          Executable='Voidstrap.exe' }
-    [pscustomobject]@{ Name='Linux-x64';         Key='linux-x64';        Kind='cross';   Rid='linux-x64';        OutDir=(Join-Path $Staging 'Linux-x64');    Executable='Voidstrap' }
-    [pscustomobject]@{ Name='Linux-arm64';       Key='linux-arm64';      Kind='cross';   Rid='linux-arm64';      OutDir=(Join-Path $Staging 'Linux-arm64');  Executable='Voidstrap' }
-    [pscustomobject]@{ Name='Linux-musl-x64';    Key='linux-musl-x64';   Kind='cross';   Rid='linux-musl-x64';   OutDir=(Join-Path $Staging 'Linux-musl-x64'); Executable='Voidstrap' }
-    [pscustomobject]@{ Name='Linux-musl-arm64';  Key='linux-musl-arm64'; Kind='cross';   Rid='linux-musl-arm64'; OutDir=(Join-Path $Staging 'Linux-musl-arm64'); Executable='Voidstrap' }
-    [pscustomobject]@{ Name='macOS-x64';         Key='osx-x64';          Kind='cross';   Rid='osx-x64';          OutDir=(Join-Path $Staging 'macOS-x64');    Executable='Voidstrap' }
-    [pscustomobject]@{ Name='macOS-arm64';       Key='osx-arm64';        Kind='cross';   Rid='osx-arm64';        OutDir=(Join-Path $Staging 'macOS-arm64');  Executable='Voidstrap' }
+    [pscustomobject]@{ Name='Windows-x64';       Key='windows';          Kind='windows'; Rid='win-x64';          OutDir=(Join-Path $Out 'Windows');          Executable='Nullstrap.exe' }
+    [pscustomobject]@{ Name='Linux-x64';         Key='linux-x64';        Kind='cross';   Rid='linux-x64';        OutDir=(Join-Path $Staging 'Linux-x64');    Executable='Nullstrap' }
+    [pscustomobject]@{ Name='Linux-arm64';       Key='linux-arm64';      Kind='cross';   Rid='linux-arm64';      OutDir=(Join-Path $Staging 'Linux-arm64');  Executable='Nullstrap' }
+    [pscustomobject]@{ Name='Linux-musl-x64';    Key='linux-musl-x64';   Kind='cross';   Rid='linux-musl-x64';   OutDir=(Join-Path $Staging 'Linux-musl-x64'); Executable='Nullstrap' }
+    [pscustomobject]@{ Name='Linux-musl-arm64';  Key='linux-musl-arm64'; Kind='cross';   Rid='linux-musl-arm64'; OutDir=(Join-Path $Staging 'Linux-musl-arm64'); Executable='Nullstrap' }
+    [pscustomobject]@{ Name='macOS-x64';         Key='osx-x64';          Kind='cross';   Rid='osx-x64';          OutDir=(Join-Path $Staging 'macOS-x64');    Executable='Nullstrap' }
+    [pscustomobject]@{ Name='macOS-arm64';       Key='osx-arm64';        Kind='cross';   Rid='osx-arm64';        OutDir=(Join-Path $Staging 'macOS-arm64');  Executable='Nullstrap' }
 )
 
 $RequestedAll = $Only -contains 'all'
@@ -1652,7 +1652,7 @@ if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Ob
         }
     }
     if ($useSignPath) {
-        $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
+        $SignPathContext = Resolve-SignPathSource -Version (Get-NullstrapVersion)
     }
 }
 
@@ -1679,7 +1679,7 @@ if (-not $IsWindowsHost -and @($Targets | Where-Object { $_.Key -eq 'windows' })
 
     if ($Targets.Count -eq 0 -and -not $BuildAndroid) {
         throw @"
-The Windows Voidstrap project cannot be built on this host.
+The Windows Nullstrap project cannot be built on this host.
 Microsoft.Windows.CsWinRT invokes cswinrt.exe during the WPF build, and that
 Windows executable cannot run natively on Linux/macOS (exit code 126).
 
@@ -1794,7 +1794,7 @@ if ($UseParallel) {
     Write-Host "Building $($buildNames -join ', ')" -ForegroundColor Cyan
 }
 $plannedPackages = [System.Collections.Generic.List[string]]::new()
-if (@($Targets | Where-Object { $_.Kind -eq 'windows' }).Count -gt 0) { $plannedPackages.Add('Windows: Voidstrap.exe') }
+if (@($Targets | Where-Object { $_.Kind -eq 'windows' }).Count -gt 0) { $plannedPackages.Add('Windows: Nullstrap.exe') }
 if ($selectedLinuxTargets.Count -gt 0) {
     if ($wantLinuxPackages) {
         $plannedFormats = @('tar.gz')
@@ -1813,7 +1813,7 @@ if ($selectedLinuxTargets.Count -gt 0) {
 }
 if (@($Targets | Where-Object { $_.Rid.StartsWith('osx-', [System.StringComparison]::Ordinal) }).Count -gt 0) {
     $macDiskImagesAvailable = $packagingShell -and ($packagingShell.Wsl -or $IsLinuxHost)
-    $plannedPackages.Add($(if ($macDiskImagesAvailable) { 'macOS: Voidstrap.app disk images and archives' } elseif ($packagingShell) { 'macOS: Voidstrap.app archives' } else { 'macOS: plain executables' }))
+    $plannedPackages.Add($(if ($macDiskImagesAvailable) { 'macOS: Nullstrap.app disk images and archives' } elseif ($packagingShell) { 'macOS: Nullstrap.app archives' } else { 'macOS: plain executables' }))
 }
 if ($BuildAndroid) { $plannedPackages.Add('Android: play and direct APKs') }
 Write-Host 'Packages:' -ForegroundColor Cyan
@@ -1841,15 +1841,15 @@ if ($appImageTool) {
 }
 $packageSources = @(Get-ChildItem -LiteralPath (Join-Path $Root 'build/Packaging') -Recurse -File |
     Sort-Object FullName | ForEach-Object { $_.FullName + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash })
-foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.VOIDSTRAP', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Voidstrap.App/Voidstrap.png')) {
+foreach ($sourcePath in @('publish-all.ps1', 'Directory.Build.props', 'LICENSE.NULLSTRAP', 'THIRD-PARTY-NOTICES.txt', 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz', 'src/Nullstrap.App/Nullstrap.png')) {
     $packageSources += (Get-FileHash -LiteralPath (Join-Path $Root $sourcePath) -Algorithm SHA256).Hash
 }
 if ($appImageTool) { $packageSources += (Get-FileHash -LiteralPath $appImageTool -Algorithm SHA256).Hash }
 $shellName = if ($packagingShell) { $packagingShell.Name } else { '' }
-$packageSources += "$wantLinuxPackages,$wantAppImageOnly,$shellName,$IsWindowsHost,$($env:VOIDSTRAP_APPIMAGE_GLIBC_CEILING),$($env:SOURCE_DATE_EPOCH),$($env:MACOS_DEPLOYMENT_TARGET)"
+$packageSources += "$wantLinuxPackages,$wantAppImageOnly,$shellName,$IsWindowsHost,$($env:NULLSTRAP_APPIMAGE_GLIBC_CEILING),$($env:SOURCE_DATE_EPOCH),$($env:MACOS_DEPLOYMENT_TARGET)"
 $script:PackageContext = [pscustomobject]@{
     Shell         = $packagingShell
-    Version       = if ($packagingShell) { Get-VoidstrapVersion } else { $null }
+    Version       = if ($packagingShell) { Get-NullstrapVersion } else { $null }
     Sources       = $packageSources
     NoteCount     = $PackageNotes.Count
     LinuxScript   = 'build/Packaging/Linux/package.sh'
@@ -1904,7 +1904,7 @@ try {
                 '-r', $t.Rid,
                 '-o', $t.OutDir,
                 '--artifacts-path', $targetArtifacts,
-                "-p:VoidstrapLinuxPackagingRoot=$targetArtifacts/",
+                "-p:NullstrapLinuxPackagingRoot=$targetArtifacts/",
                 '--self-contained', 'true',
                 '-p:IncludeAllContentForSelfExtract=true',
                 "-p:EnableCompressionInSingleFile=$compressBundle"
@@ -2044,7 +2044,7 @@ if ($Failed.Count -gt 0) {
 $packageFailure = $null
 try {
     if ($script:AndroidBuild) {
-        Complete-AndroidPublish (Get-VoidstrapVersion)
+        Complete-AndroidPublish (Get-NullstrapVersion)
     }
 
     foreach ($job in $jobs) {
@@ -2060,14 +2060,14 @@ try {
     $initialPackageNoteCount = $script:PackageContext.NoteCount
     if ($wantLinuxPackages) {
         $packageOutput = $LinuxOut
-        $x64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-x64.tar.gz"
-        $arm64Archive = Join-Path $packageOutput "Voidstrap_${packageVersion}_linux-arm64.tar.gz"
-        $aurMetadata = Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz'
+        $x64Archive = Join-Path $packageOutput "Nullstrap_${packageVersion}_linux-x64.tar.gz"
+        $arm64Archive = Join-Path $packageOutput "Nullstrap_${packageVersion}_linux-arm64.tar.gz"
+        $aurMetadata = Join-Path $packageOutput 'Nullstrap_AUR_metadata.tar.gz'
         if ((Test-Path -LiteralPath $x64Archive -PathType Leaf) -and (Test-Path -LiteralPath $arm64Archive -PathType Leaf) -and ($linuxPackageJobs.Count -gt 0 -or -not (Test-Path -LiteralPath $aurMetadata -PathType Leaf))) {
             if (Test-Path -LiteralPath $aurMetadata -PathType Leaf) { Remove-Item -LiteralPath $aurMetadata -Force }
             $aurStage = Join-Path $Staging 'AUR'
             Reset-OutputDirectory $aurStage
-            $aurArgs = @('build/Packaging/Arch/pkgbuild.sh', $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Voidstrap_AUR_metadata.tar.gz')))
+            $aurArgs = @('build/Packaging/Arch/pkgbuild.sh', $packageVersion, (Get-RootRelativePath $aurStage), (Get-RootRelativePath $x64Archive), (Get-RootRelativePath $arm64Archive), (Get-RootRelativePath (Join-Path $packageOutput 'Nullstrap_AUR_metadata.tar.gz')))
             Invoke-PackagingScript $shell 'AUR metadata' $aurArgs
         }
     }
@@ -2077,7 +2077,7 @@ try {
         foreach ($job in @($linuxPackageJobs | Where-Object { $_.Target.Rid -in @('linux-x64', 'linux-arm64') })) {
             Invoke-PackagingScript $shell "$($job.Target.Name) AppImage" @($script:PackageContext.LinuxScript, $job.Target.Rid, $packageVersion, 'appimage', (Get-RootRelativePath $appImageOutput), (Get-RootRelativePath $job.Expected))
             $packageArchitecture = if ($job.Target.Rid -eq 'linux-x64') { 'x86_64' } else { 'aarch64' }
-            $appImagePath = Join-Path $appImageOutput "Voidstrap_${packageVersion}_${packageArchitecture}.AppImage"
+            $appImagePath = Join-Path $appImageOutput "Nullstrap_${packageVersion}_${packageArchitecture}.AppImage"
             Assert-FileExists $appImagePath 'AppImage output'
             Assert-FileExists ($appImagePath + '.zsync') 'AppImage update information'
             if ((Get-Item -LiteralPath $appImagePath).Length -lt 1048576) {
@@ -2096,7 +2096,7 @@ try {
         }
         $packaged = @(Get-ChildItem -LiteralPath $platformOutput -File | Where-Object { $name = $_.Name; @($tokens | Where-Object { $name.Contains($_) }).Count -gt 0 })
         if ($packaged.Count -eq 0) {
-            Copy-Item -LiteralPath $job.Expected -Destination (Join-Path $platformOutput "Voidstrap_$(Get-VoidstrapVersion)_$($job.Target.Rid)") -Force
+            Copy-Item -LiteralPath $job.Expected -Destination (Join-Path $platformOutput "Nullstrap_$(Get-NullstrapVersion)_$($job.Target.Rid)") -Force
             $licenseOutput = Join-Path $platformOutput 'licenses'
             New-Item -ItemType Directory -Path $licenseOutput -Force | Out-Null
             Copy-Item -LiteralPath (Join-Path $Root 'THIRD-PARTY-NOTICES.txt'), (Join-Path $Root 'legal/sources/Bibata-Cursor-v2.0.7.tar.gz') -Destination $licenseOutput -Force
@@ -2140,7 +2140,7 @@ if ($packageFailure) {
 }
 
 if ($SignPathContext) {
-    Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
+    Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Nullstrap.exe')
 }
 
 if ($PackageNotes.Count -gt 0) {

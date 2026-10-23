@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.voidstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
+<com.nullstrap.android.ScrollPane xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_scroll"
@@ -8,7 +8,7 @@
     android:clipToPadding="false"
     android:fillViewport="true">
 
-    <LinearLayout style="@style/Voidstrap.Page">
+    <LinearLayout style="@style/Nullstrap.Page">
 
         <LinearLayout
             android:id="@+id/news_header"
@@ -35,7 +35,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/news_explore"
-                style="@style/Widget.Voidstrap.Button.Subtle"
+                style="@style/Widget.Nullstrap.Button.Subtle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="6dp"
@@ -152,4 +152,4 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
     </LinearLayout>
-</com.voidstrap.android.ScrollPane>
+</com.nullstrap.android.ScrollPane>

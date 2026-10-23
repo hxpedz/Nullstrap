@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.voidstrap.android.ScrollPane
+    <com.nullstrap.android.ScrollPane
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -39,7 +39,7 @@
                 android:layout_marginTop="16dp"
                 android:accessibilityHeading="true"
                 android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.Voidstrap.PageTitle"
+                android:textAppearance="@style/TextAppearance.Nullstrap.PageTitle"
                 tools:targetApi="p" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textAppearance="@style/TextAppearance.Voidstrap.Tertiary" />
+                android:textAppearance="@style/TextAppearance.Nullstrap.Tertiary" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -56,11 +56,11 @@
 
                 <LinearLayout
                     android:id="@+id/launch_rows"
-                    style="@style/Voidstrap.CardBody"
+                    style="@style/Nullstrap.CardBody"
                     android:padding="4dp" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-    </com.voidstrap.android.ScrollPane>
+    </com.nullstrap.android.ScrollPane>
 
     <LinearLayout
         android:id="@+id/launch_bottom"
@@ -87,7 +87,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/launch_open"
-            style="@style/Widget.Voidstrap.Button.Standard"
+            style="@style/Widget.Nullstrap.Button.Standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
