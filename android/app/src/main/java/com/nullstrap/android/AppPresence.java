@@ -6,7 +6,7 @@ import android.os.SystemClock;
 import org.json.JSONObject;
 
 final class AppPresence {
-    static final String SETTING = "voidRpc";
+    static final String SETTING = "nullRpc";
     private static final long THROTTLE_MS = 1500;
 
     private static final class Scene {

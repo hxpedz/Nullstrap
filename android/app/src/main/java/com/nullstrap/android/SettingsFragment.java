@@ -189,11 +189,11 @@ public final class SettingsFragment extends Page {
             ThemeFade.restart(requireActivity(), R.id.nav_settings);
         });
         buildBackground();
-        MaterialSwitch voidRpc = new MaterialSwitch(requireContext());
-        voidRpc.setChecked(AppPresence.enabled(store));
-        voidRpc.setContentDescription(getString(R.string.settings_null_rpc));
-        SettingRows.row(appearance, getString(R.string.settings_null_rpc), getString(R.string.settings_null_rpc_body), voidRpc).setOnClickListener(x -> voidRpc.toggle());
-        voidRpc.setOnCheckedChangeListener((b, on) -> store.putSetting(AppPresence.SETTING, on ? "1" : "0"));
+        MaterialSwitch nullRpc = new MaterialSwitch(requireContext());
+        nullRpc.setChecked(AppPresence.enabled(store));
+        nullRpc.setContentDescription(getString(R.string.settings_null_rpc));
+        SettingRows.row(appearance, getString(R.string.settings_null_rpc), getString(R.string.settings_null_rpc_body), nullRpc).setOnClickListener(x -> nullRpc.toggle());
+        nullRpc.setOnCheckedChangeListener((b, on) -> store.putSetting(AppPresence.SETTING, on ? "1" : "0"));
     }
 
     private void buildBackground() {
